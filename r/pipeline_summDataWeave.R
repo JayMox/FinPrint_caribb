@@ -5,28 +5,20 @@
 
 library(tidyverse)
 library(janitor)
-#library(here)
+library(here) 
 scale01 <- function(x){
   #scaling data [0,1]
   (x-min(x, na.rm = T))/(max(x, na.rm = T)-min(x, na.rm = T))
 }
 
 
-dat <- read_csv("/Users/jhmoxley/Documents/Biologia & Animales/[[Consulting]]/Finprint_carib/data/My_Caribbean_dataset_3.csv") %>% 
+dat <- read_csv(here("data", "summStats_tbl_4.csv")) %>% 
   janitor::clean_names() %>% 
   #create id field
   mutate(id = paste(reef_name, reef_id, sep = "_")) 
-  
-  
-#get richness from data 2
-fishrich <- read_csv("/Users/jhmoxley/Documents/Biologia & Animales/[[Consulting]]/Finprint_carib/data/My_Caribbean_dataset_2.csv") %>% 
-  janitor::clean_names() %>% 
-  mutate(id = paste(reef_name, reef_id, sep = "_")) %>% 
-  #get the fields I want
-  select(id, fish_richness)
 
 #get env data
-env <- read_csv("/Users/jhmoxley/Documents/Biologia & Animales/[[Consulting]]/Finprint_carib/data/caribb_site_data.csv") %>% 
+env <- read_csv(here("data", "caribb_site_data.csv")) %>% 
   janitor::clean_names() %>% 
   #create id field
   mutate(id = paste(reef_name, reef_id, sep = "_")) %>% 
@@ -35,8 +27,7 @@ env <- read_csv("/Users/jhmoxley/Documents/Biologia & Animales/[[Consulting]]/Fi
          -site_name, -reef_name, -trip_year)
 
 #combine & return
-df <- merge(dat, fishrich, by = "id") %>% 
-        merge(env, by = "id") %>% 
+df <- merge(dat, env, by = "id") %>% 
       as_tibble()
 
 #check if trasnformations are wanted
@@ -65,9 +56,11 @@ if(exists("sc01")){
   }
 }
 
+
+
 site_vars <- c("x1", "reef_id", "region_name", "location_name", "site_name",
                "min_lat", "min_lon", "max_lon")
-rm(list = c("dat", "env", "fishrich"))
+rm(list = c("dat", "env"))
 
 return(df)
 return(site_vars)

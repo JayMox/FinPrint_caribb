@@ -1,0 +1,50 @@
+---
+title: "Wrgl_FishCounts_raw"
+author: "Jerry Moxley"
+date: "2/15/2022"
+output: html_document
+---
+Aim: document database assembly of Caribb reef survey data, primarily raw survey counts of reef fish.  
+
+Database is survey count of species BY country/survey loc/BRUV surveyID.  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+source(here('r', 'fxn_library.R'))
+
+#get the meta data 
+uvc <- read_csv(here('data', 'lkup_surveyMethods_uvc.csv'))
+```
+
+## Belize
+
+Data cleaning is done for Glovers Reef and SWCMR. 
+Needs file wrangling into overall pipeline. 
+lkup_Blz_areaStandardization_Jan22 is db structure src.  
+
+```{r cars}
+summary(cars)
+```
+
+## Colombia
+30x2m Tubes
+Only a subset of families monitored (see screenshot)
+
+Islas Rosario 
+FP 478_2016 at Isla Grande (10.1784107	-75.75384933)
+FP 479_2016 at Isla Tesoro (10.23514	-75.74047)
+6 other "b" sites surveyed in Rosario archipel
+
+Islas Bernardo
+FP480_2016 at Tintipan (2 uvc depths avail).. (9.7858667	-75.7885083)
+FP481_2016 at Mangle (2 uvc locs avail)..     (9.75363335	-75.796425)
+6 other "b" sites surveyed in Bernardo archipel
+
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

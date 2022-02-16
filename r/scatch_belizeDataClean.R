@@ -5,6 +5,9 @@
 #get aggregated data for balize
 dat <- read_csv(here('data', 'scratch_Belize_masterScratch.csv')) %>% 
   janitor::clean_names()
+#13 sites w/o 8 max transects
+dat %>% group_by(src, year, site) %>% summarize(n.tr = max(transect)) %>% filter(n.tr!=8) 
+
 
 
 
