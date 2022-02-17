@@ -1,4 +1,4 @@
-#ingest colombia UVC fish spp counts
+#wrangle colombia UVC fish spp counts
 #JHMoxley, Feb 22
 
 source(here('r', 'fxn_library.R'))
@@ -10,7 +10,7 @@ n.src <- length(unique(src))
 message(paste(n.src,"src files found in stitch"))
 message(paste(src, "frm", ctry))
 
-#src sweep
+#sweep in src data
 raw <- NULL
 for(j in 1:n.src){
   dat <- read_csv(here('data/stitch',  src[j])) %>%

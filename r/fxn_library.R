@@ -25,3 +25,13 @@ scale01 <- function(x){
   #scaling data [0,1]
   (x-min(x, na.rm = T))/(max(x, na.rm = T)-min(x, na.rm = T))
 }
+
+#spp shortner; shorten sci names to gen[0,3]spp[0,3]
+spp_coder <- function(x){
+  sapply(substr(str_split(x, " ", simplify = T), 0,3), 
+         function(x){
+           print(x)
+          #return(paste(x[,1], x[,2], sep = ""))
+         })
+}
+
