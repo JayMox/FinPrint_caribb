@@ -93,12 +93,34 @@ code for avg locs
 bruv %>% filter(location_name == "Colombia") %>% filter(reef_id == "481") %>% summarize(lat = mean(set_lat), lon = mean(set_long)) %>% unlist()
 ```{r pressure, echo=FALSE}
 source(here('r', 'wrngl_uvc_colombia.R'))
-
-
+#calc density at basal level
 
 #arrange effort according to srvy fields
 #effort %>% select(colnames(srvy)) %>% colnames
+
+##bind dat w/ relevant master df's
 ```
 
 Follow ups:
 -Numbers in ptnr-provided "Transectos por estaciones de monitoreo" do not match data src. 
+-still need to bind outputs into the master df
+
+Wrangle debrief: 
+Straight-forwarded, raw provided in spp counts X transect/site/region.  One encoding error with a spp.  60m2 belt transects  only recorded subset of "selected spp" (may be quasi-citSci data).  Can be sampled at a per-transect basis, as is.  
+
+##  Cuba
+Values provided are densities, back-calculated to counts via effort info seen below (and in .xlsx of raw data).
+Biomass data also available, ignored for now. 
+
+From raw data
+16 sites on reef slope 15-20 m deep in 2018.
+10 belt transcts 50 m x 4 m per site.
+Species list includes large fishes (target by fisheries), herbivorous and medium size fishes, mainly urchin predators.
+Data are density per site on individuals/100 m2
+
+```{r}
+#source wrngl script
+```
+Follow up:
+- need to develop wrangling of the effort for lkup table.  
+- make site ref codes
