@@ -74,7 +74,7 @@ df <- raw %>% ungroup() %>%
             count = sum(cantidad, na.rm = T),
             year = 2016, #lubridate::year(fecha), 
             ) %>% 
-  mutate(site.reefcode = cod_estacion, spp.code = especie, transect = censo) %>% 
+  mutate(site.reefcode = cod_estacion, spp= especie, transect = censo) %>% 
   ungroup() %>% select(-cod_estacion, -especie, -censo) %>% 
   merge(
     effort %>% ungroup() %>% select(site.reefcode, n.obs, 
