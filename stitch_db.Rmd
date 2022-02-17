@@ -1,0 +1,104 @@
+---
+title: "Wrgl_FishCounts_raw"
+author: "Jerry Moxley"
+date: "2/15/2022"
+output: html_document
+---
+Aim: document database assembly of Caribb reef survey data, primarily raw survey counts of reef fish.  
+
+Database is survey count of species BY country/survey loc/BRUV surveyID.  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+source(here('r', 'fxn_library.R'))
+```
+
+##effort DB Initialize
+Initalize an database for tracking survey effort across methods
+```{r}
+#initalize lkup_surveyeffort from BRUV data
+  #initalize lkup_surveyeffort from BRUV data
+srvy <- read_csv(here('data', 'summStats_tbl_4.csv')) %>% 
+    janitor::clean_names() %>%
+    select(reef_id, trip_year, location_name, site_name, reef_name) %>% 
+    mutate(
+           ##sampling site meta data
+           country = location_name,
+           site.zone = site_name, 
+           site.reef = paste(site_name, reef_name, trip_year, sep = "_"),
+           site.reefcode = reef_id, 
+           lat = NA, lon = NA, year = trip_year,
+           
+           ##srvy Params
+           srvy.type = "bruv", #OR uvc.f[ish] uvc.b[enthic]
+           srvy.method = "cam", #OR radial[uvc], belt[uvc], quad[rat]
+           srvy.taxa = "elasmo", #elasmo, fish, benthos
+           d2bruv = NA, #dist to bruv [unit]
+           fpid = NA, #assigned bruv id based on proximity
+           n.obs = NA, #n of samples in src data
+           
+           ##effort params
+           eff.nsites = NA, #number of transect samples
+           eff.nsrvyed = NA, #number of srveyed 
+           eff.pue = NA, #number for PUE standardization
+           eff.unit = NA, #m2 or perMin(??)
+           
+           ##file tracking mgmt
+           #is it stitched in[t/f], raw src [file], raw out [file]
+           stitch.ed = NA,
+           stitch.in =  "BRUVmaxn_elasmobranch_observations_all.csv", 
+           stitch.out = "src_BRUV_westernAtl.csv",
+           dat.partner = "finprint"
+           
+           ) %>% 
+    select(-location_name, -site_name, -reef_id, -trip_year, -reef_name) %>% 
+  # merge(
+  #   #merge bruv data here
+  #   #or do in separate wrgnl process.. <<<- probs this!
+  # )
+  #   write_csv(here('data', 'lkup_surveyeffort.csv')
+  # )
+```
+Follow up
+wrangle bruv effort into lkup table
+
+## Belize
+
+Data cleaning is done for Glovers Reef and SWCMR. 
+Needs file wrangling into overall pipeline. 
+lkup_Blz_areaStandardization_Jan22 is db structure src.  
+
+```{r cars}
+summary(cars)
+```
+
+## Colombia
+30x2m Tubes (in simac metodos.pdf)
+Somera and Media depths (ignoring this distinction rn)
+Only a subset of families monitored (see screenshot)
+
+Islas Rosario 
+FP 478_2016 at Isla Grande (10.1784107	-75.75384933)
+FP 479_2016 at Isla Tesoro (10.23514	-75.74047)
+6 other "b" sites surveyed in Rosario archipel
+
+Islas Bernardo
+FP480_2016 at Tintipan (2 uvc depths avail).. (9.7858667	-75.7885083)
+FP481_2016 at Mangle (2 uvc locs avail)..     (9.75363335	-75.796425)
+6 other "b" sites surveyed in Bernardo archipel
+
+code for avg locs
+bruv %>% filter(location_name == "Colombia") %>% filter(reef_id == "481") %>% summarize(lat = mean(set_lat), lon = mean(set_long)) %>% unlist()
+```{r pressure, echo=FALSE}
+source(here('r', 'wrngl_uvc_colombia.R'))
+
+
+
+#arrange effort according to srvy fields
+#effort %>% select(colnames(srvy)) %>% colnames
+```
+
+Follow ups:
+-Numbers in ptnr-provided "Transectos por estaciones de monitoreo" do not match data src. 

@@ -115,11 +115,11 @@ nofb <- data.frame(name = fish[is.na(validate_names(fish))]) %>%
 
 #write out FBquery once a month
 fb %>% write_csv(file = here("data", 
-                             paste0("fishBaseQuery_", 
+                             paste0("rOut_fishBaseQuery_", 
                                     substr(Sys.Date(), 1, 7),
                                     ".csv")))
 nofb %>% write_csv(file = here("data", 
-                               paste0("fishBaseQuery_noMatches", 
+                               paste0("rOut_fishBaseQuery_noMatches", 
                                       substr(Sys.Date(), 1, 7),
                                       ".csv")))
 
