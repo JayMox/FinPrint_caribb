@@ -40,7 +40,7 @@ srvy <- read_csv(here('data', 'summStats_tbl_4.csv')) %>%
            n.obs = NA, #n of samples in src data
            
            ##effort params
-           eff.nsites = NA, #number of transect samples
+           eff.nsamples = NA, #number of transect samples
            eff.nsrvyed = NA, #number of srveyed 
            eff.pue = NA, #number for PUE standardization
            eff.unit = NA, #m2 or perMin(??)
@@ -53,7 +53,10 @@ srvy <- read_csv(here('data', 'summStats_tbl_4.csv')) %>%
            dat.partner = "finprint"
            
            ) %>% 
-    select(-location_name, -site_name, -reef_id, -trip_year, -reef_name) %>% 
+    select(-location_name, -site_name, -reef_id, -trip_year, -reef_name)
+
+###BRUV sweep
+bruv <- read_csv(here('data', 'src_BRUV_westernAtl.csv'))
   # merge(
   #   #merge bruv data here
   #   #or do in separate wrgnl process.. <<<- probs this!
@@ -122,6 +125,8 @@ Data are density per site on individuals/100 m2
 
 ```{r}
 source(here('r', 'wrngl_uvc_cuba.R'))
+
+#wrangle effort into srvy table
 ```
 Follow up:
 - need to develop wrangling of the effort for lkup table.  
