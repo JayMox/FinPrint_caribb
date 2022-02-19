@@ -56,7 +56,7 @@ srvy <- read_csv(here('data', 'summStats_tbl_4.csv')) %>%
     select(-location_name, -site_name, -reef_id, -trip_year, -reef_name)
 
 ###BRUV sweep
-bruv <- read_csv(here('data', 'src_BRUV_westernAtl.csv'))
+bruv <- read_csv(here('data/stitch', 'src_BRUV_westernAtl.csv'))
   # merge(
   #   #merge bruv data here
   #   #or do in separate wrgnl process.. <<<- probs this!
@@ -74,9 +74,19 @@ Data cleaning is done for Glovers Reef and SWCMR.
 Needs file wrangling into overall pipeline. 
 lkup_Blz_areaStandardization_Jan22 is db structure src.  
 
+RAW DATA has size classes, if size mediated bc impt.
+SRC DATA is from initial dens ests; hand copies of sheets in wintr 22.
 ```{r cars}
-summary(cars)
+#wrangle
+
 ```
+follow up.. 
+- lil confusd on assignment of site reef & site reef code.  I believe src$site is for an individual reef.  Not sure how to assign zone.  On 2/17, site and site.reef & site.reef.code are assigned the same id src>site.  
+- consider pre summary of belize data 
+- needs spp codes incorporated
+- for loop needs water tightening 
+- no lat/lons
+- Should the agg over size classes be done prior to stitch/src data?  
 
 ## Colombia
 30x2m Tubes (in simac metodos.pdf)
@@ -108,7 +118,7 @@ source(here('r', 'wrngl_uvc_colombia.R'))
 Follow ups:
 -Numbers in ptnr-provided "Transectos por estaciones de monitoreo" do not match data src. 
 -still need to bind outputs into the master df
-- get spp encoder
+- get spp encoder going into 'spp' field
 
 Wrangle debrief: 
 Straight-forwarded, raw provided in spp counts X transect/site/region.  One encoding error with a spp.  60m2 belt transects  only recorded subset of "selected spp" (may be quasi-citSci data).  Can be sampled at a per-transect basis, as is.  
