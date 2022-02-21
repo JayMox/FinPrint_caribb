@@ -44,6 +44,7 @@ sc <- read_csv(here('data/stitch', src[1])) %>%
   mutate(
     country = ctry, 
     src = src[1],
+    n.transects = max(n.survyed)
   )
 
 

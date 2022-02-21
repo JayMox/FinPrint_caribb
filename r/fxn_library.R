@@ -7,6 +7,7 @@ require(here)
 ###
 #DATA CALLS
 ###
+#this obj will become srvy or effort
 uvc <- read_csv(here('data', 'lkup_surveyeffort.csv')) %>% 
   janitor::clean_names()
 # bruv.wa <- read_csv(here('data', 'BRUVmaxn_elasmobranch_observations_all.csv')) %>%

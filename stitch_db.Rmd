@@ -76,6 +76,15 @@ lkup_Blz_areaStandardization_Jan22 is db structure src.
 
 RAW DATA has size classes, if size mediated bc impt.
 SRC DATA is from initial dens ests; hand copies of sheets in wintr 22.
+
+
+EFFORT
+lkup_belize_areaStandardization.csv shows sites where data was only inputted for fewer than total of that's reef's yrly 8 transects.  
+
+Default effort is 8 transects/site w/ 60m tubes.. coded by max(transect) for a site/year pair.   
+
+No lat/lons currently. 
+
 ```{r cars}
 #wrangle
 
