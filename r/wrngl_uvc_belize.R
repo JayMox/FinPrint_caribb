@@ -14,7 +14,7 @@ raw <- NULL
 for(j in 1:n.src){
   #create pre-summary of counts across size-classes
   dat <- read_csv(here('data/stitch', src[j])) %>% 
-    janitor::clean_names() %>% colnames()
+    janitor::clean_names() %>% 
     filter(scientific_name != "#N/A") %>% #Don't know?
     group_by(scientific_name, site, transect) %>% 
     summarize(
@@ -72,9 +72,7 @@ effort <- read_csv(here('data/stitch', src[1])) %>%
 ##data
 ######
 df <- raw %>% ungroup() %>% 
-  rename(sci.name = scientific_name,
-          site.reef = site.reefcode, 
-          ) %>% 
+  rename(sci.name = scientific_name) %>% 
   mutate(spp = NA, n.obs = NA) %>% 
   #merge w/ effort
   ungroup() %>% merge(
@@ -84,46 +82,47 @@ df <- raw %>% ungroup() %>%
     by = c('year', 'site.reefcode')
   )
 
+out <- list('fish.belize' = df, 'uvc.f.effort.belize' = effort)
+rm(list = c('dat', 'df', 'raw', 'effort'))
+return(out)
 
-
-
-############
-####
-  mutate(country = ctry, 
-         lat = NA, lon = NA, 
-         site_zone = site, site_reef = site, site_reefcode = site,
-         )
-#####
-#SCRATCH
-  #%>% 
-  #   mutate(
-  #     #try to get spp codes
-  #     spp = spp.ncodr(scientific_name, 3)
-  # ) %>% colnames()
-  
-  dat <- read_csv(here('data/stitch',  src[j])) %>%
-    janitor::clean_names()  %>% 
-    filter(scientific_name != "#N/A") %>% 
-    group_by(scientific_name, site, transect) %>% 
-    #agg data for sums
-    summarize(
-      count = sum(number_individuals, na.rm = T),
-      site.reefcode = first(site), #some confusion on appropriate site assignment
-      site.reef = first(site), #look into deeper
-      year = first(year), 
-      spp = spp.ncodr(scientific_name, 3),
-      #n.obs = n(), 
-    ) %>% colnames
-    mutate(country = as.factor(ctry), 
-           src = as.factor(src[j]),
-           n.obs = NA, #i don't think n.obs will be meaningful w/o pre-summarizing blz data
-           
-    )%>% 
-    select(
-      year, 
-      site.reef = site, #or zone
-      site.reefcode = site,
-      count = 
-    )
-  
-}
+# ############
+# ####
+#   mutate(country = ctry, 
+#          lat = NA, lon = NA, 
+#          site_zone = site, site_reef = site, site_reefcode = site,
+#          )
+# #####
+# #SCRATCH
+#   #%>% 
+#   #   mutate(
+#   #     #try to get spp codes
+#   #     spp = spp.ncodr(scientific_name, 3)
+#   # ) %>% colnames()
+#   
+#   dat <- read_csv(here('data/stitch',  src[j])) %>%
+#     janitor::clean_names()  %>% 
+#     filter(scientific_name != "#N/A") %>% 
+#     group_by(scientific_name, site, transect) %>% 
+#     #agg data for sums
+#     summarize(
+#       count = sum(number_individuals, na.rm = T),
+#       site.reefcode = first(site), #some confusion on appropriate site assignment
+#       site.reef = first(site), #look into deeper
+#       year = first(year), 
+#       spp = spp.ncodr(scientific_name, 3),
+#       #n.obs = n(), 
+#     ) %>% colnames
+#     mutate(country = as.factor(ctry), 
+#            src = as.factor(src[j]),
+#            n.obs = NA, #i don't think n.obs will be meaningful w/o pre-summarizing blz data
+#            
+#     )%>% 
+#     select(
+#       year, 
+#       site.reef = site, #or zone
+#       site.reefcode = site,
+#       count = 
+#     )
+#   
+# }

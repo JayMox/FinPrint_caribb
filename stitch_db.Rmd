@@ -99,7 +99,11 @@ follow up..
 - no lat/lons
 - Should the agg over size classes be done prior to stitch/src data?  
 - do you want remaining fields from lkup_samplingSites
-- DOUBLE CHECK MERGE ON SITES & RESERVES.. THERE ARE MIRRORING SITE CODES BW RESERVE ZONES.  I **THINK** 
+- DOUBLE CHECK MERGE ON SITES & RESERVES.. THERE ARE MIRRORING SITE CODES BW RESERVE ZONES.  I **THINK** they are in opposing odd/even years tho.  - dupes in the effort database??
+- get spp.ncodr working
+- DOUBLE DOUBLE CHECK ASSINGMNET OF MERGERS wrt to year/site/zone pairs
+- I thnk technically I should move the new field definition out of the for loop into the df call.. double chk
+-DUPES IN THE DF.. def a problem with reserve assignment.  Re-eval!!
 
 ## Colombia
 30x2m Tubes (in simac metodos.pdf)
@@ -161,3 +165,4 @@ Follow up:
  - determine what to do with the integration fields
  - get field names straight bw . & _.. particularly if janitor::clean_names((0)) is gettitng called. 
  - is n.obs a useful metric at all? probably worthwhile compiling this at the end when data is agg'ed
+ - wont data df's need a zone col?
