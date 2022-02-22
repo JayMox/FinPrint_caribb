@@ -14,7 +14,7 @@ raw <- NULL
 for(j in 1:n.src){
   #create pre-summary of counts across size-classes
   dat <- read_csv(here('data/stitch', src[j])) %>% 
-    janitor::clean_names() %>% 
+    janitor::clean_names() %>% colnames()
     filter(scientific_name != "#N/A") %>% #Don't know?
     group_by(scientific_name, site, transect) %>% 
     summarize(
@@ -33,21 +33,61 @@ for(j in 1:n.src){
   message(paste("dat from", src[j], " inputted"))
 }
 
-sc <- read_csv(here('data/stitch', src[1])) %>% 
+####
+#effort
+####
+effort <- read_csv(here('data/stitch', src[1])) %>% 
   janitor::clean_names() %>% 
   group_by(site, year) %>% 
   summarize(
     #n.tr = max(transect, na.rm = T), 
-    n.srvyed = max(transect, na.rm = T), 
+    eff.nsrvyed = max(transect, na.rm = T), 
     eff.pue = 60, 
   ) %>% 
   mutate(
     country = ctry, 
-    src = src[1],
-    n.transects = max(n.survyed)
+    site.reefcode = site, 
+    lat = NA, lon = NA, 
+    n.obs = n(), eff.pue = 60, eff.unit = 'm2', 
+    eff.nsites = #see note
+      ifelse(eff.nsrvyed == 8, 
+             8, eff.nsrvyed),
+    srvy.type = 'uvc.f',srvy.method = 'belt', srvy.taxa = 'fish', 
+    #bruv bits
+    d2bruv = NA, fpid = NA,
+    #integration
+    stitch.in = src[1], stich.ed = NA, stitch.out = NA, dat.partner = NA, 
+  ) %>% 
+  rename(site.reef = site) %>% 
+  #merge w/ lkup_belize_samplingSights for Reserve assignment
+  merge(
+    read_csv(here('data', 'lkup_belize_samplingSites.csv')) %>% 
+      select(site.zone = reserve, site), 
+    by.x = "site.reef", by.y = 'site', all.x =T
+    #could get the habitat & finprint id here too
+  ) 
+
+
+######
+##data
+######
+df <- raw %>% ungroup() %>% 
+  rename(sci.name = scientific_name,
+          site.reef = site.reefcode, 
+          ) %>% 
+  mutate(spp = NA, n.obs = NA) %>% 
+  #merge w/ effort
+  ungroup() %>% merge(
+    effort %>% ungroup() %>% 
+      select(site.reefcode, n.obs, year, site.zone,
+            eff.nsites, eff.nsrvyed, eff.pue), 
+    by = c('year', 'site.reefcode')
   )
 
 
+
+
+############
 ####
   mutate(country = ctry, 
          lat = NA, lon = NA, 

@@ -81,21 +81,25 @@ SRC DATA is from initial dens ests; hand copies of sheets in wintr 22.
 EFFORT
 lkup_belize_areaStandardization.csv shows sites where data was only inputted for fewer than total of that's reef's yrly 8 transects.  
 
-Default effort is 8 transects/site w/ 60m tubes.. coded by max(transect) for a site/year pair.   
+Default effort is 8 transects/site w/ 60m tubes.. coded by max(transect) for a site/year pair.     
 
-No lat/lons currently. 
+No lat/lons currently.
+
+site.zone defined as Glovers/GRMR or SWCMR.  Site.reef and Site.reef code are the same, but maybe should use designations baked into site code.  
 
 ```{r cars}
 #wrangle
 
 ```
 follow up.. 
-- lil confusd on assignment of site reef & site reef code.  I believe src$site is for an individual reef.  Not sure how to assign zone.  On 2/17, site and site.reef & site.reef.code are assigned the same id src>site.  
-- consider pre summary of belize data 
+- lil confusd on assignment of site reef & site reef code.  I believe src$site is for an individual reef.  Not sure how to assign zone.  On 2/17, site and site.reef & site.reef.code are assigned the same id src>site.  Eval if should be the locale baked into the reef cof
+- consider pre summary of belize data (??)
 - needs spp codes incorporated
 - for loop needs water tightening 
 - no lat/lons
 - Should the agg over size classes be done prior to stitch/src data?  
+- do you want remaining fields from lkup_samplingSites
+- DOUBLE CHECK MERGE ON SITES & RESERVES.. THERE ARE MIRRORING SITE CODES BW RESERVE ZONES.  I **THINK** 
 
 ## Colombia
 30x2m Tubes (in simac metodos.pdf)
@@ -151,3 +155,9 @@ Follow up:
 - need to develop wrangling of the effort for lkup table.  
 - make site ref codes
 - could build easy sampler for bootstrapping transects
+
+
+##FULL FOLLOW UP
+ - determine what to do with the integration fields
+ - get field names straight bw . & _.. particularly if janitor::clean_names((0)) is gettitng called. 
+ - is n.obs a useful metric at all? probably worthwhile compiling this at the end when data is agg'ed
