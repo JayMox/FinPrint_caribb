@@ -165,9 +165,10 @@ Follow up:
 ##Caicos
 - reported in density data, back calc' to spp count. 
 - uvc tube is 2x100 acc to Ruth's methods
+- has designated student VS staff-conducted surveys, structured seasonally/yrly
 
 ```{r}
-
+#source script here
 ```
 
 
