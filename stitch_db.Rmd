@@ -162,6 +162,14 @@ Follow up:
 - make site ref codes
 - could build easy sampler for bootstrapping transects
 
+##Caicos
+- reported in density data, back calc' to spp count. 
+- uvc tube is 2x100 acc to Ruth's methods
+
+```{r}
+
+```
+
 
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
