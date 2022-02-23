@@ -164,13 +164,27 @@ Follow up:
 
 ##Caicos
 - reported in density data, back calc' to spp count. 
-- uvc tube is 2x100 acc to Ruth's methods
+- uvc tube is 2x100 acc to Ruth's methods (actually seems tube dims are reported alongside the data).. (ACCORDING TO EMAIL, IT'S A 4X2X100M TUBE)
 - has designated student VS staff-conducted surveys, structured seasonally/yrly
+
+-only input surveys w/ counts reported (i.e., filter out sampling like (single, few, many, abundant)
+-has trophic assignment based on chaplin paper, may be worthwhile comparison w/ paddack assignments
+- does have size data
+- don't know what the time field is about
+- has depth data
+- effort sites are based on site name & season (date surveyed is unique to season, acc. to this code: dat %>% group_by(year, season, site) %>% distinct(date)
 
 ```{r}
 #source script here
 ```
 
+- needs follow up on site assignment & which sites are valuable samplers for South Caicos reserve
+- site.zone is hard-coded as "South Caicos"
+- has some rando site names (apply to surveys in 2014-2015)
+- might require someway to reconcile date of survey & a transect index.. impacts how nsites & nsrveys is calc'ed (which is hella important)
+- i don't understand "transect" as a field
+
+-FAIRLY GOOD EMAIL CORRESPONDENCE THAT SHOULD BE MINED AND ALIGNED
 
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
