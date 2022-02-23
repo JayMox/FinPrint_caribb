@@ -173,9 +173,12 @@ Follow up:
 - don't know what the time field is about
 - has depth data
 - effort sites are based on site name & season (date surveyed is unique to season, acc. to this code: dat %>% group_by(year, season, site) %>% distinct(date)
+- vast majority of 2016 surveys are student-leds
+
 
 ```{r}
 #source script here
+source(here('r', 'wrngl_uvc_caicos.R'))
 ```
 
 - needs follow up on site assignment & which sites are valuable samplers for South Caicos reserve
@@ -185,9 +188,17 @@ Follow up:
 - i don't understand "transect" as a field
 
 -FAIRLY GOOD EMAIL CORRESPONDENCE THAT SHOULD BE MINED AND ALIGNED
+-maybe quick analysis comapring student- v staff-led?
+- decision necessary about # of years to include, w/ finprint data
+- decision about how to handle season data? (as Feb 22, site.reefcode has season baked into it)
+-transect is set as date, could be indexed
+
+-EFFORT df needs big attn!! (both in the summarization, and in the merger w/ df)
+- Evaluate the duplicates in the spp data
 
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
  - get field names straight bw . & _.. particularly if janitor::clean_names((0)) is gettitng called. 
  - is n.obs a useful metric at all? probably worthwhile compiling this at the end when data is agg'ed
  - wont data df's need a zone col?
+ - get spp.ncodr working.

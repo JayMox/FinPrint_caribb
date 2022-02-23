@@ -25,6 +25,10 @@ for(j in 1:n.src){
     mutate(site = ifelse(tolower(site) == "spanish chain", 
                          "chain", tolower(site)))
   
+  #######
+  #direct paste of site reef code here?? 
+  #######
+  
   raw <- bind_rows(raw, dat)
   message(paste("dat from", src[j], " inputted"))
 }
@@ -63,9 +67,42 @@ effort <- raw %>%
 
 #####
 #data
+#needs decision on how to handle student data; 
+#how to aggregate seasonal surveys
 #####
-raw %>% #scrub away student obs?
-  filter(observer = "staff") %>% 
-  ungroup() %>% 
-  group_by(year, season, )
+df <- raw %>% ungroup() %>% 
+  #filter(observer == "staff") %>% 
+  mutate(site.zone = "South Caicos",
+    site.reef = site,
+    site.reefcode = paste(site, season, year, sep="_")) %>% 
+  group_by(site.zone, site, site.reefcode, 
+           year, date, genus_species) %>% 
+  summarize(n.obs = n(), 
+            transect = date, 
+            count = sum(count, na.rm = T),
+            spp = NA,
+  ) %>% 
+  rename(sci.name = genus_species) %>% ungroup() %>% 
+  merge(
+    #merge w/ effort
+    effort %>% select(site.reefcode, 
+                      eff.nsites, eff.nsrvyed, eff.pue),
+    by = 'site.reefcode', all.x = T
+  )
   
+out <- list('fish.caicos' = df, 'uvc.f.effort.caicos' = effort)
+rm(list = c('dat', 'df', 'effort', 'raw'))
+return(out)
+
+
+####
+#sc
+####
+##breakdown of student- v staff-led
+# raw %>%
+#   mutate(site.reefcode = paste(site, season, year, sep="_")) %>% 
+#   ungroup() %>% group_by(year, site) %>% 
+#   select(year, season, date, site, site.reefcode, observer) %>% 
+#   distinct() %>% 
+#   summarize(n.students = sum(observer == "student"), 
+#             n.staff = sum(observer == "staff"))
