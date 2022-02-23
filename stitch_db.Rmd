@@ -89,7 +89,9 @@ site.zone defined as Glovers/GRMR or SWCMR.  Site.reef and Site.reef code are th
 
 ```{r cars}
 #wrangle
+source(here('r', 'wrngl_uvc_belize.R'))
 
+#LOTTA LOTTA FOLLOW UPS HERE.  
 ```
 follow up.. 
 - lil confusd on assignment of site reef & site reef code.  I believe src$site is for an individual reef.  Not sure how to assign zone.  On 2/17, site and site.reef & site.reef.code are assigned the same id src>site.  Eval if should be the locale baked into the reef cof
