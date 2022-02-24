@@ -198,13 +198,18 @@ source(here('r', 'wrngl_uvc_caicos.R'))
 
 ##FLORIDA
 radial transects.. lots of zeros, extensive spp list. 
-ruth's original data lists 6 sites, 4 in 2016 2 in 2017
-noaa-provided curl script for data pulls in raw folder
+
+
+ruth's original data lists 6 sites, 4 in 2016 2 in 2017..  raw data files only have 2016.  worthwhile pulling 2017 data via noaa's curl script in here/data/raw
+
 taxa spp code list.. potential lkup table
+
+src data has length & num fields.. but num are doubles, look kinda like densities (some massive numbers too??)
 ```{r}
 
 ```
 - evaluate lkup tbl for spp data, using noaa list as src.
+- evlauate data pull on 2017 data
 
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
