@@ -196,6 +196,9 @@ source(here('r', 'wrngl_uvc_caicos.R'))
 -EFFORT df needs big attn!! (both in the summarization, and in the merger w/ df)
 - Evaluate the duplicates in the spp data
 
+##FLORIDA
+radial transects.. lots of zeros, extensive spp list. 
+
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
  - get field names straight bw . & _.. particularly if janitor::clean_names((0)) is gettitng called. 
