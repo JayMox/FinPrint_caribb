@@ -198,6 +198,13 @@ source(here('r', 'wrngl_uvc_caicos.R'))
 
 ##FLORIDA
 radial transects.. lots of zeros, extensive spp list. 
+ruth's original data lists 6 sites, 4 in 2016 2 in 2017
+noaa-provided curl script for data pulls in raw folder
+taxa spp code list.. potential lkup table
+```{r}
+
+```
+- evaluate lkup tbl for spp data, using noaa list as src.
 
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
