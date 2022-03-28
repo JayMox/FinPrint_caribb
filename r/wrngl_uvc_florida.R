@@ -16,18 +16,13 @@ for(j in 1:n.src){
   dat <- read_csv(here('data/stitch',  src[j])) %>%
     janitor::clean_names() %>% 
     mutate(country = as.factor(ctry), 
-           src = as.factor(src[j]), 
+           src = as.factor(src[j]),
+           date = lubridate::ymd(paste(year, month, day))
     ) %>% 
-    select(transect = station_nr, #or should this 
-           year, )
-    mutate(
-      especie_des = 
-        ifelse(especie == "Ccru", 
-               "Cephalopholis cruentata",
-               especie_des)
-      #deal w/ species w/ funky encoding error
-    ) %>% 
-    select(-longitud_des)
+    select(reef = primary_sample_unit,
+           zone = subregion_nr,
+           transect = station_nr, #2 radials per sampling
+           year, date)
   
   raw <- bind_rows(raw, dat)
   message(paste("dat from", src[j], " inputted"))
