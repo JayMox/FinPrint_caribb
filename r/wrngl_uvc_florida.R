@@ -17,12 +17,21 @@ for(j in 1:n.src){
     janitor::clean_names() %>% 
     mutate(country = as.factor(ctry), 
            src = as.factor(src[j]),
-           date = lubridate::ymd(paste(year, month, day))
+           date = lubridate::ymd(paste(year, month, day)),
+           site.reef = as.factor(primary_sample_unit),
+           site.reefcode = paste(primary_sample_unit, month, date, sep = "_"),
+           site.zone = paste(subregion_nr, tolower(habitat_cd), "_"),
+           n.obs = NA, eff.nsites = NA, eff.nsrveyed = NA, eff.pue = NA
     ) %>% 
-    select(reef = primary_sample_unit,
-           zone = subregion_nr,
-           transect = station_nr, #2 radials per sampling
-           year, date)
+    select(country, src, date, year,
+           site.reef, site.reefcode, site.zone,
+           transect = station_nr, #2 radials per primary sampling
+           habitat_cd, zone_nr, #zone is quasi depth (inshore, channel, fore, offshore)
+           lat = lat_degrees, lon = lon_degrees,
+           count = num, 
+           sci.name = species_nr, spp = species_cd,
+           n.obs, eff.nsites, eff.nsrveyed, eff.pue
+           )
   
   raw <- bind_rows(raw, dat)
   message(paste("dat from", src[j], " inputted"))
