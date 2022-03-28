@@ -223,15 +223,16 @@ transect - (secondary) station number (ie. 2 radial transects per sample)
 source(here('r', 'wrngl_uvc_florida.R'))
 ```
 methods details for data collection: https://nsuworks.nova.edu/cgi/viewcontent.cgi?article=1093&context=occ_facreports/
+taxa uses NOAA-provided taxa codes (eval using this tbl for rest of dataset)
 
+-ATTN TO EFFORT METRICS & ENSURE SAMPLING HIERARCHY IS ACCRUATELY AGGREGATED
+- might need add'l group-by statements depending on aggregaton scale ^^
 -what to do w/ habitat codes, maritime zone (inshore, offshore, midchannel, forereef)
 -eff. values essentially NA
-- using NOAA provided species code
-- evaluate lkup tbl for spp data, using noaa list as src.
-- evlauate data pull on 2017 data
-- NEEDS HELLA ATTN  to assingmnet of site zone, reef, & transect numbers
-- NOT SURE IF needs group_by statements for comparable numbers
--whats up w/ counts being decimals (i think this is the avg bw transect 1 and 2 at a site, see density methods in this paper: https://nsuworks.nova.edu/cgi/viewcontent.cgi?article=1093&context=occ_facreports/)
+- 2017 data pull???
+-whats up w/ counts being decimals (i think this is the avg bw transect 1 and 2 at a site, see density methods in this paper: https://nsuworks.nova.edu/cgi/viewcontent.cgi?article=1093&context=occ_facreports/).. 
+
+if this is true, the numbers shld be the same bw station 1 & station 2 (field coded as transect)
 
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
