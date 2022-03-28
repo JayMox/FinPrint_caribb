@@ -213,17 +213,25 @@ NUM: The number of individuals of a given species and length observed in a secon
 
 effort structure
 ctry - 'florida'
-zone - subregion_nr [8:12]
+zone - subregion_nr [8:12] (applies to uppper/lower keys?)
 reef - primary sampling unit
 transect - (secondary) station number (ie. 2 radial transects per sample)
+
 
 ```{r}
 #source script here
 
 ```
+methods details for data collection: https://nsuworks.nova.edu/cgi/viewcontent.cgi?article=1093&context=occ_facreports/
+
+-what to do w/ habitat codes, maritime zone (inshore, offshore, midchannel, forereef)
+-eff. values essentially NA
+- using NOAA provided species code
 - evaluate lkup tbl for spp data, using noaa list as src.
 - evlauate data pull on 2017 data
-- needs attn to assingmnet of site zone, reef, & transect numbers
+- NEEDS HELLA ATTN  to assingmnet of site zone, reef, & transect numbers
+- NOT SURE IF needs group_by statements for comparable numbers
+-whats up w/ counts being decimals (i think this is the avg bw transect 1 and 2 at a site, see density methods in this paper: https://nsuworks.nova.edu/cgi/viewcontent.cgi?article=1093&context=occ_facreports/)
 
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
