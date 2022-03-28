@@ -5,7 +5,7 @@ library(here)
 source(here('r', 'fxn_library.R'))
 ctry <- "Florida"
 message(paste("sourcing raw uvc counts from", ctry))
-src <- c('x_flaFish_2016.csv')
+src <- c('src_flaFish_2016.csv')
 n.src <- length(unique(src))
 message(paste(n.src,"src files found in stitch"))
 message(paste(src, "frm", ctry))
@@ -84,7 +84,7 @@ effort <- raw %>%
   ) %>% 
   distinct()
   
-out <- list('fish.fla' = df, 'uvc.f.effort' = effort)
+out <- list('fish.fla' = df, 'uvc.f.effort.fla' = effort)
 rm(list = c('dat', 'df', 'effort', 'raw'))
 return(out)
   
