@@ -200,10 +200,11 @@ source(here('r', 'wrngl_uvc_caicos.R'))
 radial transects.. lots of zeros, extensive spp list. 
 src field desc: https://grunt.sefsc.noaa.gov/rvc_analysis20/samples/index
 
-ruth's original data lists 6 sites, 4 in 2016 2 in 2017..  raw data files only have 2016.  worthwhile pulling 2017 data via noaa's curl script in here/data/raw
-nb.: 2017 is missing in data portal grunt.noaa.gov
+src data is entirely 2016, but applies to BRUVS sampling in 2016 (4 surveys) and 2017 (n = 2 srvys) BRUV sr
 
-taxa spp code list.. potential lkup table
+could pull 2017 data via curl script (in data/raw)?
+
+potential for taxa list as a lkup tbl?
 
 src data has length & num fields.. but num are doubles, look kinda like densities (some massive numbers too??)
 acc to data diction:
@@ -211,8 +212,8 @@ LEN: The length, in cm, of a sample.
 NUM: The number of individuals of a given species and length observed in a secondary sampling unit.
 
 effort structure
-ctry
-zone - 
+ctry - 'florida'
+zone - subregion_nr [8:12]
 reef - primary sampling unit
 transect - (secondary) station number (ie. 2 radial transects per sample)
 
