@@ -75,6 +75,7 @@ effort <- raw %>%
          site.reefcode = paste(primary_sample_unit, date, sep = "_"),
          site.zone = paste("habCd", tolower(habitat_cd), sep = "_"),
          n.obs = NA, 
+         transect = station_nr,
          #############
          #THESE NEED TO BE WRANGLED SENSIBLY
          ###############
