@@ -209,13 +209,25 @@ potential for taxa list as a lkup tbl?
 src data has length & num fields.. but num are doubles, look kinda like densities (some massive numbers too??)
 acc to data diction:
 LEN: The length, in cm, of a sample.
-NUM: The number of individuals of a given species and length observed in a secondary sampling unit.
+NUM: The number of individuals of a given species and length observed in a secondary sampling unit. (nB: REPORTED AS AN AVG COUNT W/IN DIVE BUDDY PAIR)
+STATION_NR: code assigning field to survey by first or second buddy team
 
 effort structure
 ctry - 'florida'
 zone - subregion_nr [8:12] (applies to uppper/lower keys?)
 reef - primary sampling unit
 transect - (secondary) station number (ie. 2 radial transects per sample)
+
+habitat codes defined as: 
+(from slide6: https://nmsfloridakeys.blob.core.windows.net/floridakeys-prod/media/archive/sac/othermaterials/20150616rvc.pdf) <-- pretty helpful ppt on sampling/estimation
+-offshore patch reef
+-mid-channel patch reef
+-back reef/rubble
+-low relief spur/groove
+-high releif spur/groove
+-patchy harbottom
+-low relief har bottom
+-
 
 
 ```{r}
@@ -230,16 +242,22 @@ taxa uses NOAA-provided taxa codes (eval using this tbl for rest of dataset)
 -what to do w/ habitat codes, maritime zone (inshore, offshore, midchannel, forereef)
 -eff. values essentially NA
 - 2017 data pull???
--whats up w/ counts being decimals (i think this is the avg bw transect 1 and 2 at a site, see density methods in this paper: https://nsuworks.nova.edu/cgi/viewcontent.cgi?article=1093&context=occ_facreports/).. 
 
-if this is true, the numbers shld be the same bw station 1 & station 2 (field coded as transect)
+this overall fish density provides a DQ-chk for density ests: 
+Total mean density for all sites and strata combined for all three years was 170 ±5.9 SEM
+fishes/SSU. (https://nsuworks.nova.edu/cgi/viewcontent.cgi?article=1093&context=occ_facreports/)
 
 ##Puerto Rico
 
 BRUV sampling is 2017; raw PR folder catalogues uvc from 2016 & 2019. 
 
-Largely, same data fields/sampling hierarchy as Florida.. and shld follow near same pre-processing.  
+Largely, same data fields/sampling hierarchy as Florida.. and shld follow near same pre-processing. 
+e.g., uses FLA taxa list for species codes
 
+IMPT distinction: 
+PR only uses 1 dive buddy team (ie., only 1 station_nr per PSU)
+FLA uses 2 dive-buddy teams for counts (NUM is the avg of a buddy team's individual counts; station_nr {i presume} are the counts reported for each team.  )
+see here: https://www.nodc.noaa.gov/archive/arc0101/0157633/8.8/data/0-data/Atlantic/Biological/Florida/NCRMP_RVC_Protocol_2017.pdf
 ```{r}
 source(here('r', 'wrngl_uvc_pr.R'))
 ```
