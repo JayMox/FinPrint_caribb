@@ -265,6 +265,15 @@ source(here('r', 'wrngl_uvc_pr.R'))
 -determine application of 2019 data
 -confirm same sampling area in cylinder
 -needs some more definition of effort statistics
+
+##GUADELOUPE
+
+UVC fish is absent for Guadeloupe. 
+Follow up RDunn re: absent data?
+
+6 Benthic transects avail in folder. 
+Use RDunn estimates.  
+
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
  - get field names straight bw . & _.. particularly if janitor::clean_names((0)) is gettitng called. 
