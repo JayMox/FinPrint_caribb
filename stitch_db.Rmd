@@ -229,7 +229,7 @@ habitat codes defined as:
 -low relief har bottom
 -
 
-
+keys/pr RVC methodology published here: https://www.sciencedirect.com/science/article/pii/S0165783611000312
 ```{r}
 #source script here
 source(here('r', 'wrngl_uvc_florida.R'))
