@@ -365,17 +365,17 @@ Sources for lkups are:
 ```{r}
 dF.F <- dF.f %>% 
   merge(read_csv(here('data','lkup_trophic_paddack.csv')) %>% 
-  janitor::clean_names() %>% 
+  janitor::clean_names() %>% colnames
   mutate(sci.name = 
            paste(genus, species, sep = " ")) %>% 
-  select(sci.name, trophic_group), 
+  select(sci.name, trophic_group, family), 
   by = "sci.name", all.x = T)
 
 #LOOK INTO NAs
 ```
 
  Follow up
- - chekc Na matches of sci.names.. add to Paddack?
+ - check NA matches of sci.names.. add to Paddack?
 
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
