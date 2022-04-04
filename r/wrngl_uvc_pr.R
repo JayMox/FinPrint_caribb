@@ -61,7 +61,7 @@ effort <- raw %>%
          ###############
          eff.nsites = NA, eff.nsrvyed = NA, eff.pue = NA,
          stitch.in = src) %>%
-  group_by(site.zone) %>% #APR22, Grouping by habitat code, NEEDS IMPROVEMENT
+  group_by(site.zone, site.reef) %>% #APR22, Grouping by habitat code, NEEDS IMPROVEMENT
   summarize(
     srvy.type = "uvc.f", srvy.method = "radial", srvy.taxa = "fish", 
     #bruv assignment params
@@ -73,13 +73,14 @@ effort <- raw %>%
     #############
     #THESE NEED TO BE WRANGLED SENSIBLY
     ###############
+    site.reefcode = paste(primary_sample_unit, date, sep = "_"), 
     #effort
     eff.pue = 177, eff.unit = "m2",  #15 m cylinder 
     stitch.ed = NA, 
     stitch.out = paste("src", stitch.in, sep = "_"), 
     dat.partner = "NOAA"
   ) %>% 
-  mutate(site.reef = site.zone) %>% 
+  #mutate(site.reef = site.zone) %>% 
   distinct()
 
 ######
@@ -88,7 +89,7 @@ effort <- raw %>%
 df <- raw %>% ungroup() %>% 
   mutate(date = lubridate::ymd(paste(year, month, day)),
          #site.reef = as.factor(primary_sample_unit),
-         site.reefcode = paste(primary_sample_unit, date, sep = "_"),
+         #site.reefcode = paste(primary_sample_unit, date, sep = "_"),
          site.zone = paste("habCd", tolower(habitat_cd), sep = "_"),
          #transect = paste(station_nr, site.reefcode, sep = "_"),
          #n.obs = NA, eff.nsites = NA, eff.nsrvyed = NA, eff.pue = NA) %>% 

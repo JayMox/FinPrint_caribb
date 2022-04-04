@@ -328,6 +328,7 @@ PR only uses 1 dive buddy team (ie., only 1 station_nr per PSU)
 FLA uses 2 dive-buddy teams for counts (NUM is the avg of a buddy team's individual counts; station_nr {i presume} are the counts reported for each team.  )
 see here: https://www.nodc.noaa.gov/archive/arc0101/0157633/8.8/data/0-data/Atlantic/Biological/Florida/NCRMP_RVC_Protocol_2017.pdf
 ```{r}
+###CURRENTLY TAKING AN UNWIELDY AMT OF TIME
 source(here('r', 'wrngl_uvc_pr.R'))
 
 dB <- dB %>% bind_rows(
@@ -341,7 +342,7 @@ dF.f <- dF.f %>%
               select(uvc.f.cols))
 ```
 
--EFFORT aggregated on habitat codes, not sites
+-EFFORT zoned by habitat codes, aggregated by site reefs
 -need JBlondeau insight on sample aggregation
 
 -determine application of 2019 data

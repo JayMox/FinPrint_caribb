@@ -54,7 +54,7 @@ effort <- raw %>%
          #eff.nsites = NA, eff.nsrvyed = NA, eff.pue = NA,
          stitch.in = src) %>%
   ##APR22, temporarily grouping by subregion/habitat encoded in 'site.zone' field
-  group_by(site.zone) %>% 
+  group_by(site.zone, site.reef, site.reefcode) %>% 
   summarize(
     srvy.type = "uvc.f", srvy.method = "radial", srvy.taxa = "fish", 
     #bruv assignment params
@@ -65,7 +65,7 @@ effort <- raw %>%
     #############
     #THESE NEED TO BE WRANGLED SENSIBLY
     ###############
-    site.reefcode = "needsATTN", site.reef = "needsATTN",
+    #site.reefcode = "needsATTN", site.reef = "needsATTN",
     #effort
     eff.pue = 177, eff.unit = "m2",  #15 m cylinder 
     stitch.ed = NA, 
@@ -73,7 +73,6 @@ effort <- raw %>%
     dat.partner = "NOAA"
   ) %>% 
   #TO BE CHANGED ONCE SITE AGG IS CLEAR
-  mutate(site.reef = site.zone) %>% 
   distinct() 
   
 ########
@@ -82,13 +81,12 @@ effort <- raw %>%
 df <- raw %>% ungroup() %>% 
   mutate(date = lubridate::ymd(paste(year, month, day)),
          #site.reef = as.factor(primary_sample_unit),
-         #site.reefcode = paste(primary_sample_unit, date, sep = "_"),
-         site.zone = paste("subreg", subregion_nr, tolower(habitat_cd), sep = "_"),
+         site.reefcode = paste(primary_sample_unit, date, sep = "_"),
+         #site.zone = paste("subreg", subregion_nr, tolower(habitat_cd), sep = "_"),
          n.obs = NA) %>%  
   merge(effort %>% 
-          select(contains('site'),
-                 eff.nsites, eff.nsrvyed, eff.pue), 
-        by = "site.zone", all.x = T) %>%        
+          select(contains('site'), contains('eff.')), 
+        by = "site.reefcode", all.x = T) %>%        
   merge(read_csv(here('data', 'lkup_fla_sppcodes.csv')) %>% 
           janitor::clean_names() %>% 
           select(species_cd, sciname), 
@@ -101,8 +99,7 @@ df <- raw %>% ungroup() %>%
          lat, lon,
          n.obs, starts_with("eff."))
 
-out <- list('fish.fla' = df, 'uvc.f.effort.fla' = effort, 
-            'cols' = cols)
+out <- list('fish.fla' = df, 'uvc.f.effort.fla' = effort)
 rm(list = c('dat', 'df', 'effort', 'raw'))
 return(out)
   
