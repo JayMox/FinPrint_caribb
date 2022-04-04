@@ -271,6 +271,7 @@ effort structure
 ctry - 'florida'
 zone - subregion_nr [8:12] (applies to uppper/lower keys?)
 reef - primary sampling unit
+reefcode - PSU + date surveyed
 transect - (secondary) station number (ie. 2 radial transects per sample)
 
 habitat codes defined as: 
@@ -307,7 +308,8 @@ taxa uses NOAA-provided taxa codes (eval using this tbl for rest of dataset)
 -ATTN TO EFFORT METRICS & ENSURE SAMPLING HIERARCHY IS ACCRUATELY AGGREGATED
 - might need add'l group-by statements depending on aggregaton scale ^^
 ******
-- EFFORT AGGREGATED BY SUBREGION [8:12] & hab.code (APR22, double check w/ jBlondeau)
+- EFFORT ZONED BY SUBREGION [8:12] & hab.code (APR22, double check w/ jBlondeau)
+- ZONES AGGREGATED BY site.reef (reef idx) AND site.reefcoe (reefIdx + date surveyed)
 ******
 -what to do w/ habitat codes, maritime zone (inshore, offshore, midchannel, forereef)
 - 2017 data pull???
