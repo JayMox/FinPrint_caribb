@@ -75,13 +75,14 @@ df <- raw %>% ungroup() %>%
   mutate(site.zone = "South Caicos",
     site.reef = site,
     site.reefcode = paste(site, season, year, sep="_")) %>% 
-  group_by(site.zone, site, site.reefcode, 
+  group_by(site.zone, site.reef, site.reefcode, 
            year, date, genus_species) %>% 
   summarize(n.obs = n(), 
             transect = date, 
             count = sum(count, na.rm = T),
             spp = NA,
   ) %>% 
+  mutate(country = ctry) %>% 
   rename(sci.name = genus_species) %>% ungroup() %>% 
   merge(
     #merge w/ effort

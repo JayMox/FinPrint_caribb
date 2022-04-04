@@ -50,9 +50,9 @@ df <- raw %>% ungroup() %>%
   #10 belts at a site, 50x4 tubes
   mutate(count = as.integer(density.raw * 10 * 50 * 4), 
          spp = spp.ncodr(sci.name), 
-         transect = "t1-10") %>% 
-  merge(effort %>% 
-          select(site.reef, site.reefcode,
+         transect = "t1-10", country = ctry) %>% 
+  merge(effort %>% ungroup() %>% 
+          select(site.reef, site.reefcode,site.zone,
                  lat, lon, year, n.obs, 
                  eff.nsites, eff.nsrvyed, eff.pue), 
         by = "site.reef")

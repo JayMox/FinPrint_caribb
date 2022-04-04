@@ -53,18 +53,26 @@ effort <- raw %>%
          site.reef = as.factor(primary_sample_unit),
          site.reefcode = paste(primary_sample_unit, date, sep = "_"),
          site.zone = paste("habCd", tolower(habitat_cd), sep = "_"),
+         transect = paste(station_nr, site.reefcode, sep = "_"),
          n.obs = NA, 
-         transect = station_nr,
+         #transect = station_nr,
          #############
          #THESE NEED TO BE WRANGLED SENSIBLY
          ###############
-         eff.nsites = NA, eff.nsrveyed = NA, eff.pue = NA,
+         eff.nsites = NA, eff.nsrvyed = NA, eff.pue = NA,
          stitch.in = src) %>%
   group_by(site.zone) %>% #APR22, Grouping by habitat code, NEEDS IMPROVEMENT
   summarize(
     srvy.type = "uvc.f", srvy.method = "radial", srvy.taxa = "fish", 
     #bruv assignment params
     d2bruv = NA,fpid = NA, 
+    ####
+    ##grouping on 'site.zone' SR/hab codes
+    eff.nsites = length(unique(site.reefcode)), #PSU_YYYY-MM-DD
+    eff.nsrvyed = length(unique(site.reefcode)) *1, #1 SSUs per site
+    #############
+    #THESE NEED TO BE WRANGLED SENSIBLY
+    ###############
     #effort
     eff.pue = 177, eff.unit = "m2",  #15 m cylinder 
     stitch.ed = NA, 
@@ -79,21 +87,28 @@ effort <- raw %>%
 ######
 df <- raw %>% ungroup() %>% 
   mutate(date = lubridate::ymd(paste(year, month, day)),
-         site.reef = as.factor(primary_sample_unit),
+         #site.reef = as.factor(primary_sample_unit),
          site.reefcode = paste(primary_sample_unit, date, sep = "_"),
          site.zone = paste("habCd", tolower(habitat_cd), sep = "_"),
-         n.obs = NA, eff.nsites = NA, eff.nsrveyed = NA, eff.pue = NA) %>% 
+         #transect = paste(station_nr, site.reefcode, sep = "_"),
+         #n.obs = NA, eff.nsites = NA, eff.nsrvyed = NA, eff.pue = NA) %>% 
+  ) %>% 
+  merge(effort %>% 
+          select(contains('site'), contains('eff')), 
+        by = 'site.zone', all.x = T) %>% 
   merge(read_csv(here('data', 'lkup_fla_sppcodes.csv')) %>% 
           janitor::clean_names() %>% 
           select(species_cd, sciname), 
         all.x = T, by = "species_cd") %>% 
+  mutate(transect = paste(station_nr, site.reefcode, sep = "_")) %>% 
   select(country, src, year, #date, 
          sci.name = sciname, spp = species_cd,
          count = num, 
-         transect = station_nr,
+         transect,
          starts_with("site."), 
          lat, lon,
-         n.obs, starts_with("eff."))
+         #n.obs, 
+         starts_with("eff."))
 
 
 

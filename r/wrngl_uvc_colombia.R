@@ -71,10 +71,12 @@ df <- raw %>% ungroup() %>%
   group_by(cod_estacion, especie, censo) %>% 
   summarize(sci.name = unique(especie_des), 
             site.reef = unique(nom_estacion),
+            site.zone = unique(area_des),
             count = sum(cantidad, na.rm = T),
             year = 2016, #lubridate::year(fecha), 
             ) %>% 
-  mutate(site.reefcode = cod_estacion, spp= especie, transect = censo) %>% 
+  mutate(site.reefcode = cod_estacion, spp= especie, 
+         transect = censo, country = ctry) %>% 
   ungroup() %>% select(-cod_estacion, -especie, -censo) %>% 
   merge(
     effort %>% ungroup() %>% select(site.reefcode, n.obs, 

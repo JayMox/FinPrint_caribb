@@ -65,10 +65,16 @@ bruv <- read_csv(here('data/stitch', 'src_BRUV_westernAtl.csv'))
   # )
 
 
-####dB Initialize
+####dB Initialize.. v.1
 dB <- tibble(country = NULL,
              fish = NULL,
              uvc.f = NULL)
+#####initialize dB w/ master.data.frames
+uvc.f.cols <- c(
+  "site.reef", "site.zone", "site.reefcode",
+  "year", "country", "sci.name", "count", 
+  "transect","eff.nsites", "eff.nsrvyed", "eff.pue")
+dF.f <- data.frame(NULL)
 ```
 Follow up
 wrangle bruv effort into lkup table
@@ -100,11 +106,16 @@ source(here('r', 'wrngl_uvc_belize.R'))
 #LOTTA LOTTA FOLLOW UPS HERE.  
 
 #store
+#listcol approach
 dB <- dB %>% bind_rows(
     tibble(country = "belize", 
       fish = list(out$fish.belize),
       uvc.f  = list(out$uvc.f.effort.belize)
     ))
+#df-nesting approach
+dF.f <- dF.f %>% 
+  bind_rows(out$fish.belize %>% 
+              select(uvc.f.cols))
 ```
 follow up.. 
 - lil confusd on assignment of site reef & site reef code.  I believe src$site is for an individual reef.  Not sure how to assign zone.  On 2/17, site and site.reef & site.reef.code are assigned the same id src>site.  Eval if should be the locale baked into the reef cof
@@ -150,6 +161,8 @@ dB <- dB %>% bind_rows(
       fish = list(out$fish.colo),
       uvc.f  = list(out$uvc.f.effort.colo)
     ))
+#df-nesting approach
+dF.f <- dF.f %>% bind_rows(out$fish.colo %>% select(uvc.f.cols))
 ```
 
 Follow ups:
@@ -179,6 +192,11 @@ dB <- dB %>% bind_rows(
       fish = list(out$fish.cuba),
       uvc.f  = list(out$uvc.f.effort.cuba)
     ))
+#df-nesting approach
+dF.f <- dF.f %>% 
+  mutate(transect = as.character(transect)) %>% 
+  bind_rows(out$fish.cuba %>% 
+              select(uvc.f.cols))
 ```
 Follow up:
 - need to develop wrangling of the effort for lkup table.  
@@ -209,6 +227,13 @@ dB <- dB %>% bind_rows(
       fish = list(out$fish.caicos),
       uvc.f  = list(out$uvc.f.effort.caicos)
     ))
+#df-nesting approach
+dF.f <- dF.f %>% 
+  bind_rows(out$fish.caicos %>% 
+              mutate(year = as.numeric(year),
+                     transect = as.character(transect)) %>% 
+              select(uvc.f.cols))
+
 ```
 
 - needs follow up on site assignment & which sites are valuable samplers for South Caicos reserve
@@ -269,6 +294,12 @@ dB <- dB %>% bind_rows(
       fish = list(out$fish.fla),
       uvc.f  = list(out$uvc.f.effort.fla)
     ))
+#df-nesting approach
+dF.f <- dF.f %>% 
+  bind_rows(out$fish.fla %>% 
+              mutate(transect = "NEEDSattn") %>% 
+              select(uvc.f.cols))
+
 ```
 methods details for data collection: https://nsuworks.nova.edu/cgi/viewcontent.cgi?article=1093&context=occ_facreports/
 taxa uses NOAA-provided taxa codes (eval using this tbl for rest of dataset)
@@ -301,9 +332,13 @@ source(here('r', 'wrngl_uvc_pr.R'))
 
 dB <- dB %>% bind_rows(
     tibble(country = "pr", 
-      fish = list(out$fish.pr),
-      uvc.f  = list(out$uvc.f.effort.pr)
+      fish = as_tibble(out$fish.pr),
+      uvc.f  = as_tibble(out$uvc.f.effort.pr)
     ))
+#df-nesting approach
+dF.f <- dF.f %>% 
+  bind_rows(out$fish.pr %>% 
+              select(uvc.f.cols))
 ```
 
 -EFFORT aggregated on habitat codes, not sites
@@ -328,7 +363,17 @@ Sources for lkups are:
 -Paddack et al. 
 
 ```{r}
+paddack <- read_csv(here('data', 'lkup_trophic_paddack.csv')) %>% 
+  janitor::clean_names() %>% 
+  mutate(sci.name = paste(genus, species, sep = " ")) %>% 
+  select(sci.name, trophic_group)
 
+for(j in 1:nrow(dB)){
+  print(paste("THIS IS ", first(data.frame(dB$fish[j])$country)))
+  print((colnames(data.frame(dB$fish[j]))))
+}
+
+dB <- dB %>% mutate(sc = fish %>% merge(paddack %>% select(sci.name, ), by = 'sci.name', all.x = T))
 ```
 
 

@@ -50,10 +50,8 @@ effort <- raw %>%
          site.zone = paste("sr", subregion_nr, tolower(habitat_cd), sep = "_"),
          n.obs = NA, 
          transect = station_nr,
-         #############
-         #THESE NEED TO BE WRANGLED SENSIBLY
-         ###############
-         eff.nsites = NA, eff.nsrveyed = NA, eff.pue = NA,
+         
+         #eff.nsites = NA, eff.nsrvyed = NA, eff.pue = NA,
          stitch.in = src) %>%
   ##APR22, temporarily grouping by subregion/habitat encoded in 'site.zone' field
   group_by(site.zone) %>% 
@@ -63,7 +61,11 @@ effort <- raw %>%
     d2bruv = NA,fpid = NA, 
     ##grouping on 'site.zone' SR/hab codes
     eff.nsites = length(unique(site.reefcode)), #PSU_YYYY-MM-DD
-    eff.nsrveyed = length(unique(site.reefcode)) *2, #2 SSUs per site
+    eff.nsrvyed = length(unique(site.reefcode)) *2, #2 SSUs per site
+    #############
+    #THESE NEED TO BE WRANGLED SENSIBLY
+    ###############
+    site.reefcode = "needsATTN", site.reef = "needsATTN",
     #effort
     eff.pue = 177, eff.unit = "m2",  #15 m cylinder 
     stitch.ed = NA, 
@@ -73,17 +75,19 @@ effort <- raw %>%
   #TO BE CHANGED ONCE SITE AGG IS CLEAR
   mutate(site.reef = site.zone) %>% 
   distinct() 
-
-cols <- colnames(effort)
   
+########
+##DATA
+#######
 df <- raw %>% ungroup() %>% 
   mutate(date = lubridate::ymd(paste(year, month, day)),
-         site.reef = as.factor(primary_sample_unit),
-         site.reefcode = paste(primary_sample_unit, date, sep = "_"),
+         #site.reef = as.factor(primary_sample_unit),
+         #site.reefcode = paste(primary_sample_unit, date, sep = "_"),
          site.zone = paste("subreg", subregion_nr, tolower(habitat_cd), sep = "_"),
          n.obs = NA) %>%  
   merge(effort %>% 
-          select(site.zone, eff.nsites, eff.nsrveyed, eff.pue), 
+          select(contains('site'),
+                 eff.nsites, eff.nsrvyed, eff.pue), 
         by = "site.zone", all.x = T) %>%        
   merge(read_csv(here('data', 'lkup_fla_sppcodes.csv')) %>% 
           janitor::clean_names() %>% 

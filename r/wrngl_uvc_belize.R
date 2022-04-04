@@ -73,7 +73,7 @@ effort <- read_csv(here('data/stitch', src[1])) %>%
 ######
 df <- raw %>% ungroup() %>% 
   rename(sci.name = scientific_name) %>% 
-  mutate(spp = NA, n.obs = NA) %>% 
+  mutate(spp = NA, n.obs = NA, country = ctry) %>% 
   #merge w/ effort
   ungroup() %>% merge(
     effort %>% ungroup() %>% 
