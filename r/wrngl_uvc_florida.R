@@ -70,7 +70,11 @@ effort <- raw %>%
     stitch.out = paste("src", stitch.in, sep = "_"), 
     dat.partner = "NOAA"
   ) %>% 
-  distinct()
+  #TO BE CHANGED ONCE SITE AGG IS CLEAR
+  mutate(site.reef = site.zone) %>% 
+  distinct() 
+
+cols <- colnames(effort)
   
 df <- raw %>% ungroup() %>% 
   mutate(date = lubridate::ymd(paste(year, month, day)),
@@ -93,7 +97,8 @@ df <- raw %>% ungroup() %>%
          lat, lon,
          n.obs, starts_with("eff."))
 
-out <- list('fish.fla' = df, 'uvc.f.effort.fla' = effort)
+out <- list('fish.fla' = df, 'uvc.f.effort.fla' = effort, 
+            'cols' = cols)
 rm(list = c('dat', 'df', 'effort', 'raw'))
 return(out)
   

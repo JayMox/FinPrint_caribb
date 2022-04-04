@@ -44,6 +44,36 @@ for(j in 1:n.src){
   message(paste("dat from", src[j], " inputted"))
 }
 
+#######
+##effort
+#######
+effort <- raw %>% 
+  mutate(date = lubridate::ymd(paste(year, month, day)),
+         #SUBJECT TO CHANGE BASED ON SAMPLING HIERACHARHy
+         site.reef = as.factor(primary_sample_unit),
+         site.reefcode = paste(primary_sample_unit, date, sep = "_"),
+         site.zone = paste("habCd", tolower(habitat_cd), sep = "_"),
+         n.obs = NA, 
+         transect = station_nr,
+         #############
+         #THESE NEED TO BE WRANGLED SENSIBLY
+         ###############
+         eff.nsites = NA, eff.nsrveyed = NA, eff.pue = NA,
+         stitch.in = src) %>%
+  group_by(site.zone) %>% #APR22, Grouping by habitat code, NEEDS IMPROVEMENT
+  summarize(
+    srvy.type = "uvc.f", srvy.method = "radial", srvy.taxa = "fish", 
+    #bruv assignment params
+    d2bruv = NA,fpid = NA, 
+    #effort
+    eff.pue = 177, eff.unit = "m2",  #15 m cylinder 
+    stitch.ed = NA, 
+    stitch.out = paste("src", stitch.in, sep = "_"), 
+    dat.partner = "NOAA"
+  ) %>% 
+  mutate(site.reef = site.zone) %>% 
+  distinct()
+
 ######
 ##data
 ######
@@ -65,33 +95,7 @@ df <- raw %>% ungroup() %>%
          lat, lon,
          n.obs, starts_with("eff."))
 
-#######
-##effort
-#######
-effort <- raw %>% 
-  mutate(date = lubridate::ymd(paste(year, month, day)),
-         #SUBJECT TO CHANGE BASED ON SAMPLING HIERACHARHy
-         site.reef = as.factor(primary_sample_unit),
-         site.reefcode = paste(primary_sample_unit, date, sep = "_"),
-         site.zone = paste("habCd", tolower(habitat_cd), sep = "_"),
-         n.obs = NA, 
-         transect = station_nr,
-         #############
-         #THESE NEED TO BE WRANGLED SENSIBLY
-         ###############
-         eff.nsites = NA, eff.nsrveyed = NA, eff.pue = NA,
-         stitch.in = src) %>%
-  mutate(
-    srvy.type = "uvc.f", srvy.method = "radial", srvy.taxa = "fish", 
-    #bruv assignment params
-    d2bruv = NA,fpid = NA, 
-    #effort
-    eff.pue = 177, eff.unit = "m2",  #15 m cylinder 
-    stitch.ed = NA, 
-    stitch.out = paste("src", stitch.in, sep = "_"), 
-    dat.partner = "NOAA"
-  ) %>% 
-  distinct()
+
 
 out <- list('fish.pr' = df, 'uvc.f.effort.pr' = effort)
 rm(list = c('dat', 'df', 'effort', 'raw'))
