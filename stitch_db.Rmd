@@ -63,6 +63,12 @@ bruv <- read_csv(here('data/stitch', 'src_BRUV_westernAtl.csv'))
   # )
   #   write_csv(here('data', 'lkup_surveyeffort.csv')
   # )
+
+
+####dB Initialize
+dB <- tibble(country = NULL,
+             fish = NULL,
+             uvc.f = NULL)
 ```
 Follow up
 wrangle bruv effort into lkup table
@@ -92,6 +98,13 @@ site.zone defined as Glovers/GRMR or SWCMR.  Site.reef and Site.reef code are th
 source(here('r', 'wrngl_uvc_belize.R'))
 
 #LOTTA LOTTA FOLLOW UPS HERE.  
+
+#store
+dB <- dB %>% bind_rows(
+    tibble(country = "belize", 
+      fish = list(out$fish.belize),
+      uvc.f  = list(out$uvc.f.effort.belize)
+    ))
 ```
 follow up.. 
 - lil confusd on assignment of site reef & site reef code.  I believe src$site is for an individual reef.  Not sure how to assign zone.  On 2/17, site and site.reef & site.reef.code are assigned the same id src>site.  Eval if should be the locale baked into the reef cof
@@ -132,6 +145,11 @@ source(here('r', 'wrngl_uvc_colombia.R'))
 #effort %>% select(colnames(srvy)) %>% colnames
 
 ##bind dat w/ relevant master df's
+dB <- dB %>% bind_rows(
+    tibble(country = "colombia", 
+      fish = list(out$fish.colo),
+      uvc.f  = list(out$uvc.f.effort.colo)
+    ))
 ```
 
 Follow ups:
@@ -156,6 +174,11 @@ Data are density per site on individuals/100 m2
 source(here('r', 'wrngl_uvc_cuba.R'))
 
 #wrangle effort into srvy table
+dB <- dB %>% bind_rows(
+    tibble(country = "cuba", 
+      fish = list(out$fish.cuba),
+      uvc.f  = list(out$uvc.f.effort.cuba)
+    ))
 ```
 Follow up:
 - need to develop wrangling of the effort for lkup table.  
@@ -179,6 +202,13 @@ Follow up:
 ```{r}
 #source script here
 source(here('r', 'wrngl_uvc_caicos.R'))
+
+
+dB <- dB %>% bind_rows(
+    tibble(country = "caicos", 
+      fish = list(out$fish.caicos),
+      uvc.f  = list(out$uvc.f.effort.caicos)
+    ))
 ```
 
 - needs follow up on site assignment & which sites are valuable samplers for South Caicos reserve
@@ -233,6 +263,12 @@ keys/pr RVC methodology published here: https://www.sciencedirect.com/science/ar
 ```{r}
 #source script here
 source(here('r', 'wrngl_uvc_florida.R'))
+
+dB <- dB %>% bind_rows(
+    tibble(country = "florida", 
+      fish = list(out$fish.fla),
+      uvc.f  = list(out$uvc.f.effort.fla)
+    ))
 ```
 methods details for data collection: https://nsuworks.nova.edu/cgi/viewcontent.cgi?article=1093&context=occ_facreports/
 taxa uses NOAA-provided taxa codes (eval using this tbl for rest of dataset)
@@ -262,7 +298,16 @@ FLA uses 2 dive-buddy teams for counts (NUM is the avg of a buddy team's individ
 see here: https://www.nodc.noaa.gov/archive/arc0101/0157633/8.8/data/0-data/Atlantic/Biological/Florida/NCRMP_RVC_Protocol_2017.pdf
 ```{r}
 source(here('r', 'wrngl_uvc_pr.R'))
+
+dB <- dB %>% bind_rows(
+    tibble(country = "pr", 
+      fish = list(out$fish.pr),
+      uvc.f  = list(out$uvc.f.effort.pr)
+    ))
 ```
+
+-EFFORT aggregated on habitat codes, not sites
+-need JBlondeau insight on sample aggregation
 
 -determine application of 2019 data
 -confirm same sampling area in cylinder
@@ -275,6 +320,18 @@ Follow up RDunn re: absent data?
 
 6 Benthic transects avail in folder. 
 Use RDunn estimates.  
+
+##TROPHIC ASSIGNMENTS
+Species are assigned trophic groupings & functional roles based on lookup tables. 
+
+Sources for lkups are:
+-Paddack et al. 
+
+```{r}
+
+```
+
+
 
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
