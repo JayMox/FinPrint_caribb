@@ -42,24 +42,6 @@ for(j in 1:n.src){
 ######
 ##data
 ######
-df <- raw %>% ungroup() %>% 
-  mutate(date = lubridate::ymd(paste(year, month, day)),
-     site.reef = as.factor(primary_sample_unit),
-     site.reefcode = paste(primary_sample_unit, date, sep = "_"),
-     site.zone = paste("subreg", subregion_nr, tolower(habitat_cd), sep = "_"),
-     n.obs = NA, eff.nsites = NA, eff.nsrveyed = NA, eff.pue = NA) %>% 
-  merge(read_csv(here('data', 'lkup_fla_sppcodes.csv')) %>% 
-          janitor::clean_names() %>% 
-          select(species_cd, sciname), 
-        all.x = T, by = "species_cd") %>% 
-  select(country, src, year, #date, 
-         sci.name = sciname, spp = species_cd,
-         count = num, 
-         transect = station_nr,
-         starts_with("site."), 
-         lat, lon,
-         n.obs, starts_with("eff."))
-
 effort <- raw %>% 
   mutate(date = lubridate::ymd(paste(year, month, day)),
          #SUBJECT TO CHANGE BASED ON SAMPLING HIERACHARHy
@@ -73,10 +55,15 @@ effort <- raw %>%
          ###############
          eff.nsites = NA, eff.nsrveyed = NA, eff.pue = NA,
          stitch.in = src) %>%
-  mutate(
+  ##APR22, temporarily grouping by subregion/habitat encoded in 'site.zone' field
+  group_by(site.zone) %>% 
+  summarize(
     srvy.type = "uvc.f", srvy.method = "radial", srvy.taxa = "fish", 
     #bruv assignment params
     d2bruv = NA,fpid = NA, 
+    ##grouping on 'site.zone' SR/hab codes
+    eff.nsites = length(unique(site.reefcode)), #PSU_YYYY-MM-DD
+    eff.nsrveyed = length(unique(site.reefcode)) *2, #2 SSUs per site
     #effort
     eff.pue = 177, eff.unit = "m2",  #15 m cylinder 
     stitch.ed = NA, 
@@ -85,6 +72,27 @@ effort <- raw %>%
   ) %>% 
   distinct()
   
+df <- raw %>% ungroup() %>% 
+  mutate(date = lubridate::ymd(paste(year, month, day)),
+         site.reef = as.factor(primary_sample_unit),
+         site.reefcode = paste(primary_sample_unit, date, sep = "_"),
+         site.zone = paste("subreg", subregion_nr, tolower(habitat_cd), sep = "_"),
+         n.obs = NA) %>%  
+  merge(effort %>% 
+          select(site.zone, eff.nsites, eff.nsrveyed, eff.pue), 
+        by = "site.zone", all.x = T) %>%        
+  merge(read_csv(here('data', 'lkup_fla_sppcodes.csv')) %>% 
+          janitor::clean_names() %>% 
+          select(species_cd, sciname), 
+        all.x = T, by = "species_cd") %>% 
+  select(country, src, year, #date, 
+         sci.name = sciname, spp = species_cd,
+         count = num, 
+         transect = station_nr,
+         starts_with("site."), 
+         lat, lon,
+         n.obs, starts_with("eff."))
+
 out <- list('fish.fla' = df, 'uvc.f.effort.fla' = effort)
 rm(list = c('dat', 'df', 'effort', 'raw'))
 return(out)

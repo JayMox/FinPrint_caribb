@@ -239,8 +239,10 @@ taxa uses NOAA-provided taxa codes (eval using this tbl for rest of dataset)
 
 -ATTN TO EFFORT METRICS & ENSURE SAMPLING HIERARCHY IS ACCRUATELY AGGREGATED
 - might need add'l group-by statements depending on aggregaton scale ^^
+******
+- EFFORT AGGREGATED BY SUBREGION [8:12] & hab.code (APR22, double check w/ jBlondeau)
+******
 -what to do w/ habitat codes, maritime zone (inshore, offshore, midchannel, forereef)
--eff. values essentially NA
 - 2017 data pull???
 
 this overall fish density provides a DQ-chk for density ests: 
@@ -280,3 +282,8 @@ Use RDunn estimates.
  - is n.obs a useful metric at all? probably worthwhile compiling this at the end when data is agg'ed
  - wont data df's need a zone col?
  - get spp.ncodr working.
+ 
+ ##OTHER DATA INTG
+ 
+ - MVermj contributed reef fish densities to Sandin et al. 2022 Emerg Top Life Sci 6 (1): 57–65.  https://portlandpress.com/emergtoplifesci/article/6/1/57/230986
+ -No BRUV samples for Curacao/Bonaire
