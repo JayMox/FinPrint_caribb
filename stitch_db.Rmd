@@ -363,20 +363,19 @@ Sources for lkups are:
 -Paddack et al. 
 
 ```{r}
-paddack <- read_csv(here('data', 'lkup_trophic_paddack.csv')) %>% 
+dF.F <- dF.f %>% 
+  merge(read_csv(here('data','lkup_trophic_paddack.csv')) %>% 
   janitor::clean_names() %>% 
-  mutate(sci.name = paste(genus, species, sep = " ")) %>% 
-  select(sci.name, trophic_group)
+  mutate(sci.name = 
+           paste(genus, species, sep = " ")) %>% 
+  select(sci.name, trophic_group), 
+  by = "sci.name", all.x = T)
 
-for(j in 1:nrow(dB)){
-  print(paste("THIS IS ", first(data.frame(dB$fish[j])$country)))
-  print((colnames(data.frame(dB$fish[j]))))
-}
-
-dB <- dB %>% mutate(sc = fish %>% merge(paddack %>% select(sci.name, ), by = 'sci.name', all.x = T))
+#LOOK INTO NAs
 ```
 
-
+ Follow up
+ - chekc Na matches of sci.names.. add to Paddack?
 
 ##FULL FOLLOW UP
  - determine what to do with the integration fields
