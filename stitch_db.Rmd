@@ -243,10 +243,12 @@ dF.f <- dF.f %>%
 - i don't understand "transect" as a field
 
 -FAIRLY GOOD EMAIL CORRESPONDENCE THAT SHOULD BE MINED AND ALIGNED
--maybe quick analysis comapring student- v staff-led?
 - decision necessary about # of years to include, w/ finprint data
 - decision about how to handle season data? (as Feb 22, site.reefcode has season baked into it)
 -transect is set as date, could be indexed
+
+-maybe quick analysis comapring student- v staff-led?
+-Apr22, filtering for staff only 
 
 -EFFORT df needs big attn!! (both in the summarization, and in the merger w/ df)
 - Evaluate the duplicates in the spp data
@@ -333,11 +335,11 @@ see here: https://www.nodc.noaa.gov/archive/arc0101/0157633/8.8/data/0-data/Atla
 ###CURRENTLY TAKING AN UNWIELDY AMT OF TIME
 source(here('r', 'wrngl_uvc_pr.R'))
 
-dB <- dB %>% bind_rows(
-    tibble(country = "pr", 
-      fish = as_tibble(out$fish.pr),
-      uvc.f  = as_tibble(out$uvc.f.effort.pr)
-    ))
+# dB <- dB %>% bind_rows(
+#     tibble(country = "pr", 
+#       fish = as_tibble(out$fish.pr),
+#       uvc.f  = as_tibble(out$uvc.f.effort.pr)
+#     ))
 #df-nesting approach
 dF.f <- dF.f %>% 
   bind_rows(out$fish.pr %>% 
@@ -366,15 +368,24 @@ Sources for lkups are:
 -Paddack et al. 
 
 ```{r}
-dF.F <- dF.f %>% 
+dF.f <- dF.f %>% 
   merge(read_csv(here('data','lkup_trophic_paddack.csv')) %>% 
-  janitor::clean_names() %>% colnames
+  janitor::clean_names() %>% 
   mutate(sci.name = 
            paste(genus, species, sep = " ")) %>% 
   select(sci.name, trophic_group, family), 
   by = "sci.name", all.x = T)
 
 #LOOK INTO NAs
+dF.f %>% group_by(country) %>% summarize(nNA = sum(is.na(trophic_group)))
+#LOT OF FLORIDA NA'S
+
+##EDA PLOT
+dF.f %>% 
+  group_by(country, site.reefcode, trophic_group) %>% 
+  summarize(
+    dens = sum(count, na.rm =T)/eff.pue
+      )
 ```
 
  Follow up

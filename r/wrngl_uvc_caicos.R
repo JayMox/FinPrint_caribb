@@ -40,9 +40,10 @@ effort <- raw %>%
   mutate(country = ctry, 
          site.zone = "South Caicos", 
          site.reef = tolower(site), 
-         site.reefcode = paste(site, season, year, sep="_")
+         site.reefcode = paste(site, season, year, paste0(depth_m,"m"),sep="_")
          ) %>%  
-  #site.reef.code has site/season/year baked in
+  #site.reef.code has site/season/year/depth baked in
+  #filter(observer == "staff") %>% 
   group_by(country, site.zone, site.reef, 
            year, season, site.reefcode) %>% 
   summarize(n.obs = n(), #number species obs on a survey

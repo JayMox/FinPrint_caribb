@@ -89,14 +89,14 @@ effort <- raw %>%
 df <- raw %>% ungroup() %>% 
   mutate(date = lubridate::ymd(paste(year, month, day)),
          #site.reef = as.factor(primary_sample_unit),
-         #site.reefcode = paste(primary_sample_unit, date, sep = "_"),
-         site.zone = paste("habCd", tolower(habitat_cd), sep = "_"),
+         site.reefcode = paste(primary_sample_unit, date, sep = "_"),
+         #site.zone = paste("habCd", tolower(habitat_cd), sep = "_"),
          #transect = paste(station_nr, site.reefcode, sep = "_"),
          #n.obs = NA, eff.nsites = NA, eff.nsrvyed = NA, eff.pue = NA) %>% 
   ) %>% 
   merge(effort %>% 
           select(contains('site'), contains('eff')), 
-        by = 'site.zone', all.x = T) %>% 
+        by = 'site.reefcode', all.x = T) %>% 
   merge(read_csv(here('data', 'lkup_fla_sppcodes.csv')) %>% 
           janitor::clean_names() %>% 
           select(species_cd, sciname), 
