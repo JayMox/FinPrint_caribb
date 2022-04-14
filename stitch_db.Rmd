@@ -214,7 +214,10 @@ Follow up:
 - don't know what the time field is about
 - has depth data
 - effort sites are based on site name & season (date surveyed is unique to season, acc. to this code: dat %>% group_by(year, season, site) %>% distinct(date)
+
+
 - vast majority of 2016 surveys are student-leds
+- student obs appear limited to 
 
 
 ```{r}
@@ -361,13 +364,37 @@ Follow up RDunn re: absent data?
 6 Benthic transects avail in folder. 
 Use RDunn estimates.  
 
+##DB STITCH QC
+-lots of zeros
+```{r}
+sum(is.na(dF.f$count)) #8 NA's
+dF.f <- dF.f %>% filter(!is.na(count))
+
+sum(dF.f$count == 0, na.rm = T) #2/3rds of data are zeros
+dF.f %>% 
+  filter(count == 0) %>% 
+  group_by(country) %>% 
+  count()
+#98% of them are NOAA
+
+#going to remove zeros
+dF.f <- dF.f %>% 
+  filter(count != 0)
+
+dF.f %>% summary()
+```
+
+
 ##TROPHIC ASSIGNMENTS
 Species are assigned trophic groupings & functional roles based on lookup tables. 
 
 Sources for lkups are:
 -Paddack et al. 
+-NOAA florida table
 
 ```{r}
+dF.f 
+
 dF.f <- dF.f %>% 
   merge(read_csv(here('data','lkup_trophic_paddack.csv')) %>% 
   janitor::clean_names() %>% 
