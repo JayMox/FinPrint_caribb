@@ -393,15 +393,22 @@ Sources for lkups are:
 -NOAA florida table
 
 ```{r}
-dF.f 
-
-dF.f <- dF.f %>% 
+ sc <- dF.f %>% 
+  mutate(sci.name = gsub("_", " ", sci.name)) %>% 
+  mutate(sci.name = tolower(sci.name)) %>% 
   merge(read_csv(here('data','lkup_trophic_paddack.csv')) %>% 
   janitor::clean_names() %>% 
   mutate(sci.name = 
-           paste(genus, species, sep = " ")) %>% 
+           tolower(paste(genus, species, sep = " "))) %>% 
   select(sci.name, trophic_group, family), 
-  by = "sci.name", all.x = T)
+  by = "sci.name", all.x = T) %>% 
+  mutate(
+    trophic_group = as.factor(trophic_group),
+    family = as.factor(family)
+  ) %>%
+  #filter some spurious vals
+  filter(sci.name != "#n/a") %>% 
+  filter(!is.na(sci.name))
 
 #LOOK INTO NAs
 dF.f %>% group_by(country) %>% summarize(nNA = sum(is.na(trophic_group)))

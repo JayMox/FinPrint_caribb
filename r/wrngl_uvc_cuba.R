@@ -55,7 +55,11 @@ df <- raw %>% ungroup() %>%
           select(site.reef, site.reefcode,site.zone,
                  lat, lon, year, n.obs, 
                  eff.nsites, eff.nsrvyed, eff.pue), 
-        by = "site.reef")
+        by = "site.reef") %>% 
+  #adjust a spp name
+  mutate(sci.name = ifelse(sci.name == "Carcharhinus perezi", 
+    "Carcharhinus perezii", sci.name)
+  )
 
 ##push
 out <- list('fish.cuba' = df, 'uvc.f.effort.cuba' = effort)
