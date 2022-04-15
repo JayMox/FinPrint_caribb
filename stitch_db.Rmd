@@ -393,6 +393,7 @@ Sources for lkups are:
 -NOAA florida table
 
 ```{r}
+#PADDACK MERGE
  sc <- dF.f %>% 
   mutate(sci.name = gsub("_", " ", sci.name)) %>% 
   mutate(sci.name = tolower(sci.name)) %>% 
@@ -420,6 +421,8 @@ dF.f %>%
   summarize(
     dens = sum(count, na.rm =T)/eff.pue
       )
+
+##NOAA MERGE (spp codes, )
 ```
 
  Follow up
@@ -436,3 +439,4 @@ dF.f %>%
  
  - MVermj contributed reef fish densities to Sandin et al. 2022 Emerg Top Life Sci 6 (1): 57–65.  https://portlandpress.com/emergtoplifesci/article/6/1/57/230986
  -No BRUV samples for Curacao/Bonaire
+ - FxnDiversity paper might contribute data from USVI (uses belt transects..).. see program here: https://coastalscience.noaa.gov/project/caribbean-coral-reef-ecosystem-monitoring-project/
