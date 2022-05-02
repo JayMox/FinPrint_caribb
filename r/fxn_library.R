@@ -15,7 +15,11 @@ uvc <- read_csv(here('data', 'lkup_surveyeffort.csv')) %>%
 #   filter(region_name == "Western Atlantic")
 # #%>% write_csv(here('data/pipe', 'src_BRUV_westernAtl.csv'))
 
-
+#colnames for select() in data.stitch
+uvc.f.cols <- c(
+  "site.reef", "site.zone", "site.reefcode",
+  "year", "country", "sci.name", "count", 
+  "transect","eff.nsites", "eff.nsrvyed", "eff.pue")
 
 ###
 #FXN

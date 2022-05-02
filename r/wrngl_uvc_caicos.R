@@ -79,11 +79,12 @@ df <- raw %>% ungroup() %>%
   group_by(site.zone, site.reef, site.reefcode, 
            year, date, genus_species) %>% 
   summarize(n.obs = n(), 
-            transect = date, 
+            transect = as.numeric(date), 
             count = sum(count, na.rm = T),
             spp = NA,
   ) %>% 
-  mutate(country = ctry) %>% 
+  mutate(country = ctry, 
+         year = as.numeric(year)) %>% 
   rename(sci.name = genus_species) %>% ungroup() %>% 
   merge(
     #merge w/ effort

@@ -101,7 +101,7 @@ df <- raw %>% ungroup() %>%
           janitor::clean_names() %>% 
           select(species_cd, sciname), 
         all.x = T, by = "species_cd") %>% 
-  mutate(transect = paste(station_nr, site.reefcode, sep = "_")) %>% 
+  mutate(transect = as.numeric(paste(station_nr, site.reefcode, sep = "_"))) %>% 
   select(country, src, year, #date, 
          sci.name = sciname, spp = species_cd,
          count = num, 
