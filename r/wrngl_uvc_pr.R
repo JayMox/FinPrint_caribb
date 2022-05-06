@@ -89,7 +89,7 @@ effort <- raw %>%
 df <- raw %>% ungroup() %>% 
   mutate(date = lubridate::ymd(paste(year, month, day)),
          #site.reef = as.factor(primary_sample_unit),
-         site.reefcode = paste(primary_sample_unit, date, sep = "_"),
+         site.reefcode = paste(primary_sample_unit, as.numeric(date), sep = ""),
          #site.zone = paste("habCd", tolower(habitat_cd), sep = "_"),
          #transect = paste(station_nr, site.reefcode, sep = "_"),
          #n.obs = NA, eff.nsites = NA, eff.nsrvyed = NA, eff.pue = NA) %>% 
@@ -101,7 +101,7 @@ df <- raw %>% ungroup() %>%
           janitor::clean_names() %>% 
           select(species_cd, sciname), 
         all.x = T, by = "species_cd") %>% 
-  mutate(transect = as.numeric(paste(station_nr, site.reefcode, sep = "_"))) %>% 
+  mutate(transect = as.numeric(paste(station_nr, site.reefcode, sep = ""))) %>% 
   select(country, src, year, #date, 
          sci.name = sciname, spp = species_cd,
          count = num, 

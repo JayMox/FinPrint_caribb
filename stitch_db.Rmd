@@ -54,6 +54,8 @@ srvy <- read_csv(here('data', 'summStats_tbl_4.csv')) %>%
            
            ) %>% 
     select(-location_name, -site_name, -reef_id, -trip_year, -reef_name)
+#write-out srvy data form
+write_csv(srvy, here('data', 'lkup_srvy_params.csv'))
 
 ###BRUV sweep
 bruv <- read_csv(here('data/stitch', 'src_BRUV_westernAtl.csv'))
@@ -391,6 +393,13 @@ Species are assigned trophic groupings & functional roles based on lookup tables
 Sources for lkups are:
 -Paddack et al. 
 -NOAA florida table
+-diaz fxnl traits
+-micheli ?? 
+-paddack ref w/ hab-generalist/specialist
+
+-anything to draw from here: https://www.pnas.org/doi/10.1073/pnas.2012318118
+-hab specialist/generalist designated here (see Luiz ref): https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0126004#pone.0126004.s008
+-also provides rates of change in spp abundance trends (gen. rel. little change)
 
 ```{r}
 #PADDACK MERGE
