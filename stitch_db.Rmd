@@ -395,25 +395,48 @@ Sources for lkups are:
 -NOAA florida table
 -diaz fxnl traits
 -micheli ?? 
--paddack ref w/ hab-generalist/specialist
+-paddack ref w/ hab-generalist/specialist (4 spp w/o representation in og paddack tbl)
 
 -anything to draw from here: https://www.pnas.org/doi/10.1073/pnas.2012318118
 -hab specialist/generalist designated here (see Luiz ref): https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0126004#pone.0126004.s008
 -also provides rates of change in spp abundance trends (gen. rel. little change)
+
+diaz groupings (multiple assignment, all fields)
+- water col feeding position (wcfp): benthic (BEN), demersal (DEM), midwater (MID), and surface (SUR)
+- social feeding behavior (sfb): soliatry indis (SOL), in pairs (PAIR), intraspecific aggregations (AGR), or in mixed groups with other species (MIX)
+- Feeding time (ftod): diurnal (DIU), crepuscular (CRE), and nocturnal (NOC), 
+- feeding habitat: coral reefs (COR), rocky reefs (ROC), seagrasses(SEA), algae beds (ALG), mangroves (MAN), sand (SAN), coral rubble (RUB), open water (OPE), water column (COL), out of shelf (SHE), and attached to other verts (VER)
+
+2 continuous/ordinal  variables
+-TL - 2.0 (herbs) up to 4.5 (piscivores)
+- diet breadth - numbe of prey idtems included in deit (nekton, zooplankton, zoobenthos, detritus, plants, sand, organic matter, ectopnarasites, and unidentified animal material)
+
+
+habitat specialization
+4 spp not in src paddack tbl: 
+[1] "Elacatinus illecebrosus"   
+[2] "Haemulon vittatum"         
+[3] "Kyphosus incisor/sectatrix"
+[4] "Calamus pennatula"  
 
 ```{r}
 #PADDACK MERGE
  sc <- dF.f %>% 
   mutate(sci.name = gsub("_", " ", sci.name)) %>% 
   mutate(sci.name = tolower(sci.name)) %>% 
-  merge(read_csv(here('data','lkup_trophic_paddack.csv')) %>% 
+  merge(read_csv(here('data','lkup_trophic_akk.csv')) %>% 
   janitor::clean_names() %>% 
   mutate(sci.name = 
            tolower(paste(genus, species, sep = " "))) %>% 
-  select(sci.name, trophic_group, family), 
+  select(sci_name, family, max_length, 
+         tg_pdk = trophic_group, 
+         fished_pdk = fishing_status, 
+         habspec_pdk = habitat_use), 
   by = "sci.name", all.x = T) %>% 
   mutate(
-    trophic_group = as.factor(trophic_group),
+    tg_pdk = as.factor(trophic_group),
+    fished_pdk = as.factor(fished_pdk),
+    habspec_pdk = as.factor(fished_pdk)
     family = as.factor(family)
   ) %>%
   #filter some spurious vals

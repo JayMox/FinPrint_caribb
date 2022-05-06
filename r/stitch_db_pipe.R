@@ -34,26 +34,32 @@ dF.f <- dF.f %>%
 #augment fields
 dF.f <- dF.f %>% 
   #get paddack & standardize
-  merge(read_csv(here('data', 'lkup_trophic_paddack.csv')) %>% 
+  merge(read_csv(here('data', 'lkup_paddack_all.csv'))%>% 
           janitor::clean_names() %>% 
           mutate(sci_name = tolower(paste(genus,species, sep=" ")),
                  trophic_group = as.factor(trophic_group),
                  family = as.factor(family)) %>% 
           select(sci_name, 
-                 trophic_group, 
-                 family), 
+                 family, max_length, 
+                 tg_pdk = trophic_group, 
+                 fished_pdk = fishing_status, 
+                 habspec_pdk = habitat_use), 
         by = "sci_name", all.x = T) 
 #10% NA's.. ~0.01% when only considering >0 counts
+#387 spp have trophic groupngs
 
 ##DIAZ Designations
 ##165 spp, clustered in 3 groups
+##all fields have multiple assignments
 ##complete info.. n = 95; 6 traits
 ##majority ifno = n = 38; 5+ traits
 ##incomplete = n = 32; <5 traits
 
+
   
 sc <- read_csv(here('data', 'lkup_fxntrait_diaz.csv')) %>%
-  janitor::clean_names() 
+  janitor::clean_names()
+  
 traits <- read_csv(here('data', 'lkup_fxntrait_groupings.csv')) %>% 
   janitor::clean_names()
 
