@@ -8,6 +8,10 @@
 library(tidyverse)
 library(here)
 
+#########
+##Trophic Groups & hab specialization
+##from paddack refs
+#########
 #combine habitat specialization w/ trophic assingments
 paddack <- read_csv(here('data', 'lkup_trophic_paddack.csv')) %>% 
   janitor::clean_names() %>% 
@@ -20,7 +24,8 @@ paddack <- read_csv(here('data', 'lkup_trophic_paddack.csv')) %>%
         by = "sci_name", all.x = T)
 paddack %>% write_csv(here('data', 'lkup_paddack_all.csv'))
 
-trophic_dB <- paddack %>%  
+#transform into [1, NA] matrix
+trophic_db <- paddack %>%  
   #spread vars
   bind_cols(paddack %>% 
               spread(trophic_group, trophic_group) %>% 
@@ -39,30 +44,28 @@ trophic_dB <- paddack %>%
   mutate(var = tolower(var),
     val = ifelse(!is.na(val), 1, NA)) %>% 
   #return to wide format
-  spread(var, val) 
+  spread(var, val)
+  
 
+##########
+##Integrate with Fxn Traits
+##from Diaz db
+#########
 
-  # #get diaz fxn traits
-  # merge(read_csv(here('data', 'lkup_fxntrait_diaz.csv')) %>% 
-  #     janitor::clean_names() %>% 
-  #     mutate(val = 1), 
-  #   by.x = "sci_name", by.y = "species", all.x = T) %>% view
-
-sc <- 
-  paddack %>% mutate(sci_name = tolower(sci_name)) %>% 
-  #2 missing matches
-  merge(diaz %>% mutate(species = tolower(species)), 
+trait_db <- trophic_db %>% 
+  mutate(sci_name = tolower(sci_name)) %>% 
+  merge(read_csv(here('data', 'lkup_fxntrait_diaz.csv')) %>% 
+          janitor::clean_names() %>% 
+          mutate(species = tolower(species)) %>% 
+          select(-family) %>% colnames(), 
         by.x = "sci_name", by.y = "species", all.x = T)
-diaz <- read_csv(here('data', 'lkup_fxntrait_diaz.csv')) %>% 
-      janitor::clean_names() %>%
-      mutate(val = 1)
 
-#troubleshooting speices that don't match to paddack dataset  
-sc3 <- diaz %>% filter(!(tolower(species) %in% tolower(paddack$sci_name)))
+sc <- trait_db %>% 
+  gather(var, val, -c('sci_name', 'family', 'genus', 'species', 
+                      'trophic_group', 'max_length', 'fishing_status', 'habitat_use')) %>% view()
 
-sc <- read_csv(here('data', 'lkup_fxntrait_diaz.csv')) %>%
-  janitor::clean_names() %>% 
-  mutate(val = 1) %>% view
+##get colnames resorted w/ metrics
+##ensure double columns
 
 codes <- read_csv(here('data', 'lkup_trait_codes.csv')) %>% 
   janitor::clean_names()
