@@ -401,11 +401,17 @@ Sources for lkups are:
 -hab specialist/generalist designated here (see Luiz ref): https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0126004#pone.0126004.s008
 -also provides rates of change in spp abundance trends (gen. rel. little change)
 
-diaz groupings (multiple assignment, all fields)
+diaz groupings (multiple assignment, all fields.. NB. supp data only has assingments for 95spp)
 - water col feeding position (wcfp): benthic (BEN), demersal (DEM), midwater (MID), and surface (SUR)
 - social feeding behavior (sfb): soliatry indis (SOL), in pairs (PAIR), intraspecific aggregations (AGR), or in mixed groups with other species (MIX)
 - Feeding time (ftod): diurnal (DIU), crepuscular (CRE), and nocturnal (NOC), 
 - feeding habitat: coral reefs (COR), rocky reefs (ROC), seagrasses(SEA), algae beds (ALG), mangroves (MAN), sand (SAN), coral rubble (RUB), open water (OPE), water column (COL), out of shelf (SHE), and attached to other verts (VER)
+
+##165 spp, clustered in 3 groups
+##all fields have multiple assignments
+##complete info.. n = 95; 6 traits
+##majority ifno = n = 38; 5+ traits
+##incomplete = n = 32; <5 traits
 
 2 continuous/ordinal  variables
 -TL - 2.0 (herbs) up to 4.5 (piscivores)

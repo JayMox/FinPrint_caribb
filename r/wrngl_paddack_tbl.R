@@ -8,15 +8,8 @@
 library(tidyverse)
 library(here)
 
-trophic <- 
-hab <- read_csv(here('data', 'lkup_habUse_paddack.csv')) %>% 
-  janitor::clean_names() %>% 
-  mutate(sci_name = str_trim(paste(genus, species, " "))) %>% 
-  select(-fishing_status) #assumed same as other paddack study
-
-paddack <- read_csv(
-  #get trophic groups
-  here('data', 'lkup_trophic_paddack.csv')) %>% 
+#combine habitat specialization w/ trophic assingments
+paddack <- read_csv(here('data', 'lkup_trophic_paddack.csv')) %>% 
   janitor::clean_names() %>% 
   mutate(sci_name = str_trim(paste(genus, species, " "))) %>% 
   #get habitat specialization
@@ -24,7 +17,10 @@ paddack <- read_csv(
           janitor::clean_names() %>% 
           mutate(sci_name = str_trim(paste(genus, species, " "))) %>% 
           select(sci_name, habitat_use), #assumed same as other paddack study %>%,
-          by = "sci_name", all.x = T) %>% 
+        by = "sci_name", all.x = T)
+paddack %>% write_csv(here('data', 'lkup_paddack_all.csv'))
+
+trophic_dB <- paddack %>%  
   #spread vars
   bind_cols(paddack %>% 
               spread(trophic_group, trophic_group) %>% 
@@ -53,13 +49,17 @@ paddack <- read_csv(
   #   by.x = "sci_name", by.y = "species", all.x = T) %>% view
 
 sc <- 
-  paddack %>% 
-  merge(diaz, 
+  paddack %>% mutate(sci_name = tolower(sci_name)) %>% 
+  #2 missing matches
+  merge(diaz %>% mutate(species = tolower(species)), 
         by.x = "sci_name", by.y = "species", all.x = T)
 diaz <- read_csv(here('data', 'lkup_fxntrait_diaz.csv')) %>% 
       janitor::clean_names() %>%
       mutate(val = 1)
-  
+
+#troubleshooting speices that don't match to paddack dataset  
+sc3 <- diaz %>% filter(!(tolower(species) %in% tolower(paddack$sci_name)))
+
 sc <- read_csv(here('data', 'lkup_fxntrait_diaz.csv')) %>%
   janitor::clean_names() %>% 
   mutate(val = 1) %>% view
