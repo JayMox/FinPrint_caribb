@@ -21,17 +21,25 @@ paddack <- read_csv(here('data', 'lkup_trophic_paddack.csv')) %>%
           janitor::clean_names() %>% 
           mutate(sci_name = str_trim(paste(genus, species, " "))) %>% 
           select(sci_name, habitat_use), #assumed same as other paddack study %>%,
-        by = "sci_name", all.x = T)
+        by = "sci_name", all.x = T) %>% 
 paddack %>% write_csv(here('data', 'lkup_paddack_all.csv'))
 
+sc <- paddack %>% 
+  mutate(trophic_group = tolower(trophic_group),
+         habitat_use = tolower(habitat_use)) %>% 
+  #mutate(tg2 = NA) %>% 
+  transform(trophic_group = codes$field[match(trophic_group, codes$val)])
+
+  
 #transform into [1, NA] matrix
 trophic_db <- paddack %>%  
   #spread vars
-  bind_cols(paddack %>% 
+  bind_cols(paddack %>% #adjust field names into info cols
+              transform(trophic_group = 
+                          codes$field[match(tolower(trophic_group), codes$val)]) %>%
               spread(trophic_group, trophic_group) %>% 
-              select(Carnivore, Herbivore, Invertivore, 
-                     Omnivore, Piscivore, Planktivore)) %>% 
-  bind_cols(paddack %>% 
+              select(contains("_fg"))) %>% 
+  bind_cols(paddack %>% #adjust field names into info cols
               spread(fishing_status, fishing_status) %>% 
               select(fished = Fished, not_fished = Not)) %>%
   bind_cols(paddack %>% 
@@ -57,17 +65,19 @@ trait_db <- trophic_db %>%
   merge(read_csv(here('data', 'lkup_fxntrait_diaz.csv')) %>% 
           janitor::clean_names() %>% 
           mutate(species = tolower(species)) %>% 
-          select(-family) %>% colnames(), 
+          select(-family), 
         by.x = "sci_name", by.y = "species", all.x = T)
 
 sc <- trait_db %>% 
   gather(var, val, -c('sci_name', 'family', 'genus', 'species', 
                       'trophic_group', 'max_length', 'fishing_status', 'habitat_use')) %>% view()
 
-##get colnames resorted w/ metrics
-##ensure double columns
+
 
 codes <- read_csv(here('data', 'lkup_trait_codes.csv')) %>% 
-  janitor::clean_names()
+  janitor::clean_names() %>% 
+  #make informative field names
+  mutate(field = paste(val_code, var_code, sep = "_")) %>% 
+  mutate(field = ifelse(var_code %in% c('db', 'tl'), var_code, field))
 #write_csv(paddack, here('data', 'lkup_paddack_all.csv'))
 

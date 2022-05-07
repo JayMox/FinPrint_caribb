@@ -15,6 +15,13 @@ uvc <- read_csv(here('data', 'lkup_surveyeffort.csv')) %>%
 #   filter(region_name == "Western Atlantic")
 # #%>% write_csv(here('data/pipe', 'src_BRUV_westernAtl.csv'))
 
+#trait & trophic codes
+codes <- read_csv(here('data', 'lkup_trait_codes.csv')) %>% 
+  janitor::clean_names() %>% 
+  #make informative field names
+  mutate(field = paste(val_code, var_code, sep = "_")) %>% 
+  mutate(field = ifelse(var_code %in% c('db', 'tl'), var_code, field))
+
 #colnames for select() in data.stitch
 uvc.f.cols <- c(
   "site.reef", "site.zone", "site.reefcode",
