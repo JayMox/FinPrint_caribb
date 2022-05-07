@@ -60,7 +60,7 @@ dF.f <- dF.f %>%
 sc <- read_csv(here('data', 'lkup_fxntrait_diaz.csv')) %>%
   janitor::clean_names()
   
-traits <- read_csv(here('data', 'lkup_fxntrait_groupings.csv')) %>% 
+traits <- read_csv(here('data', 'lkup_trait_groupings.csv')) %>% 
   janitor::clean_names()
 
   mutate(tier = ben + dem+ mid + sur + sol + pair + agr + mix + diu + cre + noc + cor + rock + sea + alg + man +san + rub + ope + col + she + ver) %>% 
