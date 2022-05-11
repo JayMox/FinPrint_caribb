@@ -49,32 +49,15 @@ dF.f <- dF.f %>%
 #387 spp have trophic groupngs
 
 ##DIAZ Designations
-##165 spp, clustered in 3 groups
+ ##165 spp, clustered in 3 groups
 ##all fields have multiple assignments
 ##complete info.. n = 95; 6 traits
 ##majority ifno = n = 38; 5+ traits
 ##incomplete = n = 32; <5 traits
 
-
-  
-sc <- read_csv(here('data', 'lkup_fxntrait_diaz.csv')) %>%
+################
+##Traits based
+################
+trts <- read_csv(here('r', 'wrngl_trait_db.R')) %>% 
   janitor::clean_names()
-  
-traits <- read_csv(here('data', 'lkup_trait_groupings.csv')) %>% 
-  janitor::clean_names()
-
-  mutate(tier = ben + dem+ mid + sur + sol + pair + agr + mix + diu + cre + noc + cor + rock + sea + alg + man +san + rub + ope + col + she + ver) %>% 
-  gather(trait, bool, 
-         -species, -family, -tl, -db, -tier) %>% 
-  #trophic level & diet breadth
-  #as well as:
-  #social feeding behavior = 
-  #feeding ground = 
-  #time of feeding = 
-  #water col feeding position = 
-  filter(!is.na(bool))
-
-  filter()
-  head()
-          
   
