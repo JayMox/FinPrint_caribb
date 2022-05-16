@@ -58,6 +58,20 @@ dF.f <- dF.f %>%
 ################
 ##Traits based
 ################
-trts <- read_csv(here('r', 'wrngl_trait_db.R')) %>% 
-  janitor::clean_names()
+source(here('r', 'wrngl_trait_db.R'))
+
+sc <- dF.f %>% 
+  merge(trophic_db %>% 
+          select(sci_name, 
+                 trophic_group, max_length, fishing_status,
+                 contains(c('fg', 'habuse', 'fished'))),
+        by = "sci_name", all.x = T)
+#explore % matches of species
+  
+
+
+
+
+
+
   
