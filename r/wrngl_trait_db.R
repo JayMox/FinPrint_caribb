@@ -22,12 +22,13 @@ paddack <- read_csv(here('data', 'lkup_trophic_paddack.csv')) %>%
           janitor::clean_names() %>% 
           mutate(sci_name = str_trim(paste(genus, species, " "))) %>% 
           select(sci_name, habitat_use), #assumed same as other paddack study %>%,
-        by = "sci_name", all.x = T)
+        by = "sci_name", all.x = T) %>% 
+  mutate(sci_name = tolower(sci_name))
 paddack %>% write_csv(here('data', 'lkup_paddack_all.csv'))
 
   
 #transform into [1, NA] matrix
-trophic_db <- paddack %>%  
+trophic_db <- paddack %>% 
   #spread vars
   bind_cols(paddack %>% #adjust field names into info cols
               transform(trophic_group = 
