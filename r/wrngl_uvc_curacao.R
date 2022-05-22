@@ -28,12 +28,13 @@ for(j in 1:n.src){
 ##effort
 effort <- raw %>% 
   select(-species, -density) %>% 
-  mutate(country = "Curacao",
+  mutate(country = "Curacao", 
          site.zone = NA, 
          site.reef = station, 
-         site.reefcode = station) %>% colnames()
+         site.reefcode = station) %>% 
   group_by(country, site.zone, site.reef, site.reefcode) %>%
-  summarize(lat = NA, lon = NA, 
+  summarize() %>% 
+  mutate(lat = NA, lon = NA, 
             year = 2015, 
             n.obs = NA, 
             eff.nsites = 5, #transects/station
@@ -47,6 +48,25 @@ effort <- raw %>%
     #bruv assignment params
     d2bruv = NA, fpid = NA, 
     #effort
-    effort.pue = 30*2*2, eff.unit = "m2"
-  )
+    effort.pue = 30*2*2, eff.unit = "m2",
+    stich.ed = NA, 
+    stitch.out = paste("src", stitch.in, sep = "_"),
+    dat.partner = "NOAA"
+  ) %>% 
+  distinct()
 
+
+########
+##DATA
+#########
+df <- raw %>% ungroup() %>% 
+  mutate(date = NA, 
+         site.reefcode = station, 
+         n.obs = NA) %>% 
+  #merge statement w/ effort to get site data
+  #merge statement to get sci.names
+  #select statement for cols of interest
+  
+out <- list('fish.cura' = df, 'uvc.f.effort.cura' = effort)
+rm(list = c('dat', 'df', 'effort', 'raw'))
+return(out)
