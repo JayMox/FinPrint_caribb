@@ -279,7 +279,7 @@ ctry - 'florida'
 zone - subregion_nr [8:12] (applies to uppper/lower keys?)
 reef - primary sampling unit
 reefcode - PSU + date surveyed
-transect - (secondary) station number (ie. 2 radial transects per sample)
+transect - (secondary) station number (ie. 2 radial transects  per sample)
 
 habitat codes defined as: 
 (from slide6: https://nmsfloridakeys.blob.core.windows.net/floridakeys-prod/media/archive/sac/othermaterials/20150616rvc.pdf) <-- pretty helpful ppt on sampling/estimation
@@ -357,6 +357,11 @@ dF.f <- dF.f %>%
 -determine application of 2019 data
 -confirm same sampling area in cylinder
 -needs some more definition of effort statistics
+
+##CURACAO
+Curacau survey methods follow GCRMN recommendations (see attachment in email from Vermeij)
+
+nb: Aruba and Curacao are assumed same survey methods.
 
 ##GUADELOUPE
 
