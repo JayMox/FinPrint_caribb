@@ -41,6 +41,7 @@ effort <- raw %>%
             eff.nsrveyed = 5, 
             stitch.in = src) %>% 
   #merge w/ station info?
+  #no station info provided by Vermj
   mutate(
     #wrngl into lkup form
     #survey params
@@ -48,7 +49,7 @@ effort <- raw %>%
     #bruv assignment params
     d2bruv = NA, fpid = NA, 
     #effort
-    effort.pue = 30*2*2, eff.unit = "m2",
+    eff.pue = 30*2*2, eff.unit = "m2",
     stich.ed = NA, 
     stitch.out = paste("src", stitch.in, sep = "_"),
     dat.partner = "NOAA"
@@ -63,7 +64,25 @@ df <- raw %>% ungroup() %>%
   mutate(date = NA, 
          site.reefcode = station, 
          n.obs = NA) %>% 
-  #merge statement w/ effort to get site data
+  #merge to get effort data
+  merge(effort %>% ungroup() %>% 
+          select(contains('site'), contains('eff.'), lat, lon),
+        by = "site.reefcode", all.x = T) %>% 
+  #get scientific names
+  merge(read_csv(here('data', 'lkup_vermeij_sppcodes.csv')) %>% 
+                   janitor::clean_names() %>% 
+                   mutate(sci.name = tolower(str_replace(genus, "_", " ")),
+                          spp = tolower(new_name)) %>% 
+                   select( #get cols of interest
+                     spp, family, sci.name), 
+        by.x = "species", by.y = "spp", all.x = T) %>% 
+  select(country, src, year = yr,
+         sci.name, spp = species, 
+         #count, #density,
+         starts_with('site.'), lat, lon, 
+         n.obs, starts_with('eff.')) %>% 
+  mutate(transect = NA)
+  #not sure what to do for transects
   #merge statement to get sci.names
   #select statement for cols of interest
   

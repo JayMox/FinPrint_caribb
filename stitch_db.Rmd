@@ -377,11 +377,28 @@ raw data reported in separate sheets for density (#/m2) & biomass (g/m2, via.eq:
 UVC (2015) & BRUV (2016) 
 UVC: 141 stations, 173 spp
 ```{r}
+#source script here
+source(here('r', 'wrngl_uvc_curacao.R'))
+
+
+dB <- dB %>% bind_rows(
+    tibble(country = "caicos", 
+      fish = list(out$fish.caicos),
+      uvc.f  = list(out$uvc.f.effort.caicos)
+    ))
+#df-nesting approach
+dF.f <- dF.f %>% 
+  bind_rows(out$fish.caicos %>% 
+              mutate(year = as.numeric(year),
+                     transect = as.character(transect)) %>% 
+              select(uvc.f.cols))
 
 ```
 
 
 no current site.zone.. just station code as stie.reef & site.reefcode
+
+NEEDS BACK CALCULATION OF DENSITIES INTO COUNTS
 
 ##ARUBA
 Aruba survey methods follow Curacao. 
