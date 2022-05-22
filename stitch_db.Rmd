@@ -363,6 +363,34 @@ Curacau survey methods follow GCRMN recommendations (see attachment in email fro
 
 nb: Aruba and Curacao are assumed same survey methods.
 
+notes from pub: 
+- priority of survey is accurate assessment of all species of snappers (Lutjanidae), groupers (Serranidae), parrotfish (Labridae – Scarinae), and surgeonfish (Acanthuridae).
+- lesser priority to record presence of sensitive spp (sharks/rays) and important invasives (e.g., lionfish) 
+- beyond this, estimate density & size of ALL spp
+
+belt transects 30x2m
+5 transects / site (8-12 min per transect)
+data pooled for avg estimate of density & size structure of all fish
+
+raw data reported in separate sheets for density (#/m2) & biomass (g/m2, via.eq: W = a x L^b).. data must be in cm & g (otherwise needs conversion)
+
+UVC (2015) & BRUV (2016) 
+UVC: 141 stations, 173 spp
+```{r}
+
+```
+
+
+no current site.zone.. just station code as stie.reef & site.reefcode
+
+##ARUBA
+Aruba survey methods follow Curacao. 
+
+There is a year mismatch bw UVC (2019) & BRUV (2017) data.  
+ToBe determined if to integrate this. 
+
+
+
 ##GUADELOUPE
 
 UVC fish is absent for Guadeloupe. 

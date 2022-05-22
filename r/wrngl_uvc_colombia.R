@@ -54,7 +54,7 @@ effort <- raw %>%
       #bruv assignment params
       d2bruv = NA,fpid = NA, 
       #effort
-      eff.pue = 60, eff.unit = "m2",  #uvc tubes
+      eff.pue = 30*2*2, eff.unit = "m2",  #uvc tubes
       stitch.ed = NA, 
       stitch.out = paste("src", stitch.in, sep = "_"), 
       dat.partner = "SIMAC"
