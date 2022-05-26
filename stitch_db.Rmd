@@ -254,6 +254,7 @@ dF.f <- dF.f %>%
 
 -maybe quick analysis comapring student- v staff-led?
 -Apr22, filtering for staff only 
+-struggling to get pkg::rvc() loaded
 
 -EFFORT df needs big attn!! (both in the summarization, and in the merger w/ df)
 - Evaluate the duplicates in the spp data
