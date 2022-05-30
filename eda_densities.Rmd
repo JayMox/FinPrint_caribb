@@ -1,0 +1,54 @@
+---
+title: "Traits EDA"
+author: "Jerry Moxley"
+date: "5/30/2022"
+output: html_document
+---
+Doc to track analytical decision in a traits-based analysis of reef fish data in the Caribbean.  
+
+May 2022, currently working with subset of reef fish data b/c of issues around integrating cylinder-surveys/radial transects of PR/FlKeys data.  
+
+```{r setup, include=FALSE}
+##Workbench set up
+library(tidyverse)
+library(here)
+source(here('r', 'stitch_db_pipe.R')) #data & traits db
+source(here('r', 'fxn_library.R'))
+```
+
+## Density calcs
+effort units are encoded in the 'eff.' fields.
+
+data details for calculating density at site_reef scales
+Belize - src reports # of a spp within a size class viewed on a transect (most sites surveyed 8 times).. 
+
+density calc'ed = sum(spp count for site_reefcode) / (eff_nsrvyed * eff_pue) for each of the 2 site-zones (Glovers, SWC)
+
+Cuba - src reports # of spp observed on all 10 transects at a site_reef 
+
+density calc'ed = count / (eff_nsrveyed * eff_pue)
+
+Colombia - src reports  # of spp sighted on reef transect w/in site_reefs w/in site zones (rosario, bernado)
+
+density calc'ed = sum(spp count for each site_reef (or 1st 3 letters of reef_code)) / eff_nsrveyed * eff pue)
+
+Caicos - src reports # of spp sighted for a survey date at sight.  transect field is a numeric encoding of date.  site reef code is site // season // year
+also has staff/student observers
+
+density calc'ed = sum(spp count for each site_reef_code)
+
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

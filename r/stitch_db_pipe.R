@@ -68,7 +68,10 @@ sc <- dF.f %>%
         by = "sci_name", all.x = T)
 #explore % matches of species
   
-#dat Out
+############
+##dat Out
+############
+rm(list=setdiff(ls(), c('sc', 'traits_db')))
 return(sc)
 
 
