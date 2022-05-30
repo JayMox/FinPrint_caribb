@@ -14,8 +14,8 @@ blz <- source(here('r', 'wrngl_uvc_belize.R'))
 cuba <- source(here('r', 'wrngl_uvc_cuba.R'))
 colo <- source(here('r', 'wrngl_uvc_colombia.R'))
 caicos <- source(here('r', 'wrngl_uvc_caicos.R'))
-fla <- source(here('r', 'wrngl_uvc_florida.R'))
-pr <- source(here('r', 'wrngl_uvc_pr.R'))
+#fla <- source(here('r', 'wrngl_uvc_florida.R'))
+#pr <- source(here('r', 'wrngl_uvc_pr.R'))
              
 
 ##stich'n'store
@@ -25,8 +25,8 @@ dF.f <- dF.f %>%
   bind_rows(cuba$value$fish.cuba) %>% select(all_of(uvc.f.cols)) %>%
   bind_rows(colo$value$fish.colo) %>% select(all_of(uvc.f.cols)) %>% 
   bind_rows(caicos$value$fish.caicos) %>% select(all_of(uvc.f.cols)) %>% 
-  bind_rows(fla$value$fish.fla) %>% select(all_of(uvc.f.cols)) %>% 
-  bind_rows(pr$value$fish.pr) %>% select(all_of(uvc.f.cols)) %>% 
+  #bind_rows(fla$value$fish.fla) %>% select(all_of(uvc.f.cols)) %>% 
+  #bind_rows(pr$value$fish.pr) %>% select(all_of(uvc.f.cols)) %>% 
   #standardize fields
   mutate(sci.name = gsub("_", " ", tolower(sci.name))) %>% 
   janitor::clean_names()
@@ -49,7 +49,7 @@ dF.f <- dF.f %>%
 #387 spp have trophic groupngs
 
 ##DIAZ Designations
- ##165 spp, clustered in 3 groups
+##165 spp, clustered in 3 groups
 ##all fields have multiple assignments
 ##complete info.. n = 95; 6 traits
 ##majority ifno = n = 38; 5+ traits
@@ -68,7 +68,8 @@ sc <- dF.f %>%
         by = "sci_name", all.x = T)
 #explore % matches of species
   
-
+#dat Out
+return(sc)
 
 
 
