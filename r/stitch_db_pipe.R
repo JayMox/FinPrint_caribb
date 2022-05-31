@@ -31,6 +31,11 @@ dF.f <- dF.f %>%
   mutate(sci.name = gsub("_", " ", tolower(sci.name))) %>% 
   janitor::clean_names()
   
+
+###############
+##TROPHIC BASED
+##needs to be incorporated with wrgnl script
+###############
 #augment fields
 dF.f <- dF.f %>% 
   #get paddack & standardize
@@ -60,14 +65,14 @@ dF.f <- dF.f %>%
 ################
 source(here('r', 'wrngl_trait_db.R'))
 
-sc <- dF.f %>% 
-  merge(trophic_db %>% 
-          select(sci_name, 
+sc <- dF.f %>%
+  merge(trophic_db %>%
+          select(sci_name,
                  trophic_group, max_length, fishing_status,
                  contains(c('fg', 'habuse', 'fished'))),
         by = "sci_name", all.x = T)
 #explore % matches of species
-  
+
 ############
 ##dat Out
 ############

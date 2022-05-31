@@ -33,14 +33,16 @@ Colombia - src reports  # of spp sighted on reef transect w/in site_reefs w/in s
 density calc'ed = sum(spp count for each site_reef (or 1st 3 letters of reef_code)) / eff_nsrveyed * eff pue)
 
 Caicos - src reports # of spp sighted for a survey date at sight.  transect field is a numeric encoding of date.  site reef code is site // season // year
-also has staff/student observers
+also has staff/student observers.. & reports via size class
+
+Might need to figure out some aspect w/ blank surveys
 
 density calc'ed = sum(spp count for each site_reef_code)
 
 
 
 ```{r cars}
-summary(cars)
+
 ```
 
 ## Including Plots
