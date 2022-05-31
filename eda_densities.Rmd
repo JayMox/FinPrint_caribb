@@ -42,7 +42,9 @@ density calc'ed = sum(spp count for each site_reef_code)
 
 
 ```{r cars}
-
+#rough cut
+sc$density <- NA
+sc$density <- ifelse()
 ```
 
 ## Including Plots
