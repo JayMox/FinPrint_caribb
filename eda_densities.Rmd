@@ -42,7 +42,8 @@ density calc'ed = sum(spp count for each site_reef_code)
 
 
 ```{r cars}
-#rough cut
+#stitch data
+#until pipe script is working to stitch data together
 sc$density <- NA
 sc$density <- ifelse()
 ```
