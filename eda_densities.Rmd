@@ -43,10 +43,25 @@ density calc'ed = sum(spp count for each site_reef_code)
 
 ```{r cars}
 #stitch data
-#until pipe script is working to stitch data together
-sc$density <- NA
-sc$density <- ifelse()
+tst <- sc %>% ungroup() %>% group_by(country, site_zone, 
+                                     site_reef, site_reefcode,
+                                     sci_name) %>% 
+  #sum counts across transects & tally # of transects
+  summarize(count_sum = sum(count), 
+             eff_ntrsct = length(unique(transect)),
+            # eff.nsrveyed = unique(eff.nsrveyed),
+            # eff.nsites = unique(eff.nsites), 
+            # eff.pue = unique(eff.pue)
+            )
+
 ```
+
+observations
+ - sample_frac seems to only select caicos or cuba if the data is not ungrouped (these are not the most frequent samples either)
+ - belize has an NA assignmnet for site reef???
+ - cuba counts were backcalculated from densities aggregated across 10 surveys
+ - caicos data is failing spot checks
+ - 
 
 ## Including Plots
 
